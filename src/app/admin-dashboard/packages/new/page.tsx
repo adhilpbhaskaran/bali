@@ -870,7 +870,7 @@ export default function NewPackagePage() {
                   </select>
                   <p className="mt-1 text-xs text-white/60 flex items-center gap-1">
                     <Info size={12} />
-                    <span>Draft packages won't be visible on the website</span>
+                    <span>Draft packages won&apos;t be visible on the website</span>
                   </p>
                 </div>
 

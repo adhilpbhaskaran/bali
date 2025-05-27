@@ -230,7 +230,7 @@ export default function SavedItems() {
                 <Heart size={24} className="text-white/50" />
               </div>
               <h3 className="text-lg font-medium mb-2">No saved packages</h3>
-              <p className="text-white/70 mb-6">You haven't saved any packages yet. Browse our packages and click the heart icon to save them for later.</p>
+              <p className="text-white/70 mb-6">You haven&apos;t saved any packages yet. Browse our packages and click the heart icon to save them for later.</p>
               <Link href="/packages" className="btn-primary">
                 Browse Packages
               </Link>
@@ -324,7 +324,7 @@ export default function SavedItems() {
                 <Heart size={24} className="text-white/50" />
               </div>
               <h3 className="text-lg font-medium mb-2">No saved activities</h3>
-              <p className="text-white/70 mb-6">You haven't saved any activities yet. Browse our activities and click the heart icon to save them for later.</p>
+              <p className="text-white/70 mb-6">You haven&apos;t saved any activities yet. Browse our activities and click the heart icon to save them for later.</p>
               <Link href="/activities" className="btn-primary">
                 Browse Activities
               </Link>

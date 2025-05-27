@@ -186,7 +186,7 @@ export default function EditTestimonialPage({ params }: { params: { id: string }
         </div>
         <h3 className="text-xl font-medium mb-2">Testimonial Not Found</h3>
         <p className="text-white/60 mb-6">
-          The testimonial you're trying to edit doesn't exist or has been deleted.
+          The testimonial you&apos;re trying to edit doesn&apos;t exist or has been deleted.
         </p>
         <Link
           href="/admin-dashboard/testimonials"

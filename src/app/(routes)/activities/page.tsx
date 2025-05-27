@@ -10,7 +10,7 @@ const allActivities = [
   {
     id: 1,
     title: "Mount Batur Sunrise Trek",
-    description: "Witness a breathtaking sunrise from Bali's active volcano",
+    description: "Witness a breathtaking sunrise from Bali&apos;s active volcano",
     price: 65,
     rating: 4.8,
     reviews: 320,
@@ -131,7 +131,7 @@ const allActivities = [
   {
     id: 12,
     title: "Tanah Lot Sunset Tour",
-    description: "Experience magical sunset at Bali's iconic sea temple",
+    description: "Experience magical sunset at Bali&apos;s iconic sea temple",
     price: 40,
     rating: 4.8,
     reviews: 256,

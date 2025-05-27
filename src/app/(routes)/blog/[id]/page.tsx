@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
   Calendar, 
   User, 
   Clock, 
-  Share2, 
   Facebook, 
   Twitter, 
   Linkedin, 
@@ -86,7 +85,7 @@ const blogPostsData = [
       
       <p>Known as the "Mother Temple" of Bali, Besakih is the largest and most important temple complex on the island. Located on the slopes of Mount Agung, it consists of 23 related temples with the main one, Pura Penataran Agung, having six levels terraced up the slope.</p>
       
-      <p>The temple offers stunning views of the surrounding mountains, rice paddies, and streams. As it's a sacred site, visitors must wear a sarong and sash, which can be rented at the entrance.</p>
+      <p>The temple offers stunning views of the surrounding mountains, rice paddies, and streams. As it&apos;s a sacred site, visitors must wear a sarong and sash, which can be rented at the entrance.</p>
       
       <h2>Tips for First-Time Visitors</h2>
       
@@ -181,7 +180,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
         <div className="container-custom">
           <div className="bento-card text-center py-12">
             <h2 className="text-xl font-semibold mb-2">Blog post not found</h2>
-            <p className="text-white/70 mb-6">The article you're looking for doesn't exist or has been removed.</p>
+            <p className="text-white/70 mb-6">The article you&apos;re looking for doesn&apos;t exist or has been removed.</p>
             <Link href="/blog" className="btn-primary">
               Back to Blog
             </Link>
@@ -392,7 +391,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                         <span className="text-white/50 text-sm">3 days ago</span>
                       </div>
                       <p className="text-white/80 text-sm">
-                        I would also recommend visiting Nusa Lembongan if you have time. It's less crowded than Nusa Penida but equally beautiful!
+                        I would also recommend visiting Nusa Lembongan if you have time. It&apos;s less crowded than Nusa Penida but equally beautiful!
                       </p>
                       <button className="text-primary-500 text-sm mt-2">Reply</button>
                     </div>
@@ -414,7 +413,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                         <span className="text-white/50 text-sm">2 days ago</span>
                       </div>
                       <p className="text-white/80 text-sm">
-                        Great suggestion, Jane! I'll add Nusa Lembongan to the follow-up article about island hopping around Bali.
+                        Great suggestion, Jane! I&apos;ll add Nusa Lembongan to the follow-up article about island hopping around Bali.
                       </p>
                       <button className="text-primary-500 text-sm mt-2">Reply</button>
                     </div>

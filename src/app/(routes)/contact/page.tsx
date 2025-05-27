@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { MapPin, Mail, Phone, Send, CheckCircle } from 'lucide-react';
 
 export default function ContactPage() {
@@ -40,7 +39,7 @@ export default function ContactPage() {
         subject: '',
         message: '',
       });
-    } catch (err) {
+    } catch {
       setError('There was an error submitting your message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -55,7 +54,7 @@ export default function ContactPage() {
           <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
           <p className="text-white/70 max-w-3xl">
             Have questions about our packages or need help planning your perfect Bali experience? 
-            We're here to help! Reach out to us using the form below or through our contact details.
+            We&apos;re here to help! Reach out to us using the form below or through our contact details.
           </p>
         </div>
 
@@ -123,7 +122,7 @@ export default function ContactPage() {
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Thank You!</h3>
                   <p className="text-white/80 mb-4">
-                    Your message has been successfully sent. We'll get back to you as soon as possible.
+                    Your message has been successfully sent. We&apos;ll get back to you as soon as possible.
                   </p>
                   <button 
                     onClick={() => setIsSubmitted(false)}
@@ -281,7 +280,7 @@ export default function ContactPage() {
             <div className="bento-card p-6">
               <h3 className="text-xl font-semibold mb-3">Can I customize the packages on your website?</h3>
               <p className="text-white/70">
-                Absolutely! All our packages can be customized to suit your preferences. Contact us with your requirements, and we'll create a tailored itinerary for you.
+                Absolutely! All our packages can be customized to suit your preferences. Contact us with your requirements, and we&apos;ll create a tailored itinerary for you.
               </p>
             </div>
             

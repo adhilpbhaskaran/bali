@@ -102,7 +102,7 @@ const activityData = {
     },
     {
       question: "What should I wear for the trek?",
-      answer: "Wear comfortable athletic clothing in layers (it's cold before sunrise but warms up quickly), hiking shoes or sturdy sneakers with good grip, a light jacket or windbreaker, and a hat. Bring a small backpack for water and personal items."
+      answer: "Wear comfortable athletic clothing in layers (it&apos;s cold before sunrise but warms up quickly), hiking shoes or sturdy sneakers with good grip, a light jacket or windbreaker, and a hat. Bring a small backpack for water and personal items."
     },
     {
       question: "Is this trek suitable for children?",

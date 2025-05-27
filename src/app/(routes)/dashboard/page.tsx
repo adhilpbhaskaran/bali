@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, MapPin, Clock, Users, Package, CreditCard, Heart, Settings, LogOut } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Calendar, Clock, Users, Package, Heart, Settings } from 'lucide-react';
 
 // Sample data for bookings
 const bookings = [
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   <div className="bento-card p-8 text-center">
-                    <p className="text-white/70 mb-4">You don't have any bookings yet.</p>
+                    <p className="text-white/70 mb-4">You don&apos;t have any bookings yet.</p>
                     <Link href="/packages" className="btn-primary">
                       Explore Packages
                     </Link>
@@ -264,7 +264,7 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   <div className="bento-card p-8 text-center">
-                    <p className="text-white/70 mb-4">You don't have any saved trips yet.</p>
+                    <p className="text-white/70 mb-4">You don&apos;t have any saved trips yet.</p>
                     <Link href="/trip-planner" className="btn-primary">
                       Start Planning
                     </Link>

@@ -51,7 +51,7 @@ export default function RegisterPage() {
       
       // Show success message
       setIsSubmitted(true);
-    } catch (err) {
+    } catch {
       setError('An error occurred during registration. Please try again.');
     } finally {
       setIsLoading(false);
@@ -193,7 +193,7 @@ export default function RegisterPage() {
                 />
               </div>
               <p className="text-white/50 text-xs mt-1">
-                We'll use this for booking confirmations and updates
+                We&apos;ll use this for booking confirmations and updates
               </p>
             </div>
 

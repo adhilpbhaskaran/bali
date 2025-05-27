@@ -129,7 +129,7 @@ export default function BookingPage() {
   const type = searchParams.get('type') || 'package';
   const id = searchParams.get('id');
   
-  const [bookingItem, setBookingItem] = useState<any>(null);
+  const [bookingItem, setBookingItem] = useState<object | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -162,7 +162,7 @@ export default function BookingPage() {
       } else {
         setError('Invalid booking type or ID');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred while loading the booking information');
     } finally {
       setLoading(false);

@@ -130,7 +130,7 @@ export default function BookingForm({
       {currentStep === 1 && (
         <div>
           <div className="mb-6">
-            <h3 className="font-medium mb-4">You're booking: {title}</h3>
+            <h3 className="font-medium mb-4">You&apos;re booking: {title}</h3>
             
             <div className="mb-4">
               <label className="block text-sm text-white/70 mb-2">Select Date</label>
