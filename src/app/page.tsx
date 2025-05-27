@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Search, MapPin, Calendar, Users, ChevronRight, Star } from "lucide-react";
+import BaliImage from "@/components/ui/BaliImage";
 
 // Components
 import HeroSearch from "@/components/home/HeroSearch";
@@ -160,34 +160,43 @@ const testimonials = [
 export default function Home() {
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative h-[85vh] sm:h-screen">
-        <div className="absolute inset-0 bg-gradient-to-b from-dark-900/60 to-dark-800/60 z-10" />
-        <Image
-          src="/images/bluebeach1.jpg"
-          alt="Bali Paradise"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="relative z-20 container-custom px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="font-bold mb-2 sm:mb-4 animate-slide-up">
-            <span className="text-white block text-6xl sm:text-7xl md:text-8xl lg:text-9xl" style={{ fontFamily: 'Samona, sans-serif' }}>Discover Bali</span>
-            <span className="text-white/90 block text-xs sm:text-sm md:text-base lg:text-xl mt-2 sm:mt-3">Your Adventure Awaits!</span>
-          </h1>
-          <p className="text-base sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-2xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            Experience the magic of Bali with our tailor-made travel packages. From serene beaches to vibrant culture, we have something for every traveler.
-          </p>
-          
-          {/* Hero Search */}
-          <div className="w-full max-w-4xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <HeroSearch />
+      {/* Hero Section with Overlay */}
+      <div className="relative">
+        <section className="relative h-screen w-full overflow-hidden">
+          <BaliImage
+            src="/images/bluebeach1.jpg"
+            alt="Bali Paradise"
+            fallbackText="Beautiful Bali"
+            priority={true}
+            className="object-cover w-full h-full"
+          />
+        </section>
+
+        {/* Hero Content - Centered on hero image */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center">
+          <div className="container-custom px-4 sm:px-6 lg:px-8 text-center">
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-6 md:mb-8">
+                <h1 className="font-bold animate-slide-up">
+                  <span className="text-white block text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight" style={{ fontFamily: 'Samona, sans-serif' }}>Discover Bali</span>
+                  <span className="text-white/90 block text-sm sm:text-lg md:text-2xl lg:text-3xl mt-3 sm:mt-4">Your Adventure Awaits!</span>
+                </h1>
+              </div>
+              <p className="text-base sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                Experience the magic of Bali with our tailor-made travel packages. From serene beaches to vibrant culture, we have something for every traveler.
+              </p>
+              
+              {/* Hero Search */}
+              <div className="w-full max-w-4xl mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                <HeroSearch />
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Featured Packages */}
-      <section className="py-10 sm:py-16 md:py-20 bg-dark-900">
+      <section className="py-10 sm:py-16 md:py-20 bg-dark-900 relative z-10">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8 sm:mb-12">
             <div>
@@ -297,11 +306,12 @@ export default function Home() {
       {/* CTA Section */}
       <section className="relative py-20">
         <div className="absolute inset-0 bg-gradient-to-r from-deepBlue-800/90 to-purple-900/90 z-10" />
-        <Image
+        <BaliImage
           src="/images/bali-beach.jpg"
           alt="Bali Beach"
-          fill
-          loading="lazy"
+          fallbackText="Beautiful Bali Beach"
+          category="beach"
+          priority={false}
           className="object-cover"
         />
         <div className="relative z-20 container-custom text-center">

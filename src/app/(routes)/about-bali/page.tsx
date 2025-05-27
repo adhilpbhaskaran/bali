@@ -1,25 +1,28 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Download, MapPin, Calendar, Info } from 'lucide-react';
+import BaliImage from '@/components/ui/BaliImage';
 
 export default function AboutBaliPage() {
   return (
     <div className="pt-24 pb-16 bg-dark-900 min-h-screen">
       <div className="container-custom">
         {/* Hero Section */}
-        <div className="relative h-80 md:h-96 rounded-bento overflow-hidden mb-12">
-          <Image
+        <div className="relative h-[50vh] md:h-[60vh] rounded-bento overflow-hidden mb-12">
+          <BaliImage
             src="/images/about-bali-hero.jpg"
             alt="Beautiful Bali"
-            fill
+            fallbackText="Island of the Gods"
+            category="culture"
+            priority={true}
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-900/80 to-dark-900/40" />
-          <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About Bali</h1>
-            <p className="text-xl text-white/90 max-w-2xl">
+          <div className="absolute inset-0 bg-gradient-to-r from-dark-900/80 to-dark-900/40 z-[1]" />
+          <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 z-[2]">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-slide-up" style={{ fontFamily: 'Samona, sans-serif' }}>About Bali</h1>
+            <div className="h-1 w-24 bg-primary-500 mb-6 animate-slide-up" style={{ animationDelay: '0.1s' }}></div>
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
               Discover the island of gods - a paradise of stunning landscapes, rich culture, and unforgettable experiences
             </p>
           </div>
@@ -84,10 +87,12 @@ export default function AboutBaliPage() {
               </p>
             </div>
             <div className="relative h-80 rounded-bento overflow-hidden">
-              <Image
-                src="/images/bali-rice-terraces.jpg"
-                alt="Bali Rice Terraces"
-                fill
+              <BaliImage
+                src="/images/our-story.jpg"
+                alt="Our Story"
+                fallbackText="Bali Culture"
+                category="culture"
+                priority={false}
                 className="object-cover"
               />
             </div>
@@ -100,10 +105,12 @@ export default function AboutBaliPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/ubud.jpg"
                   alt="Ubud"
-                  fill
+                  fallbackText="Ubud Region"
+                  category="culture"
+                  priority={false}
                   className="object-cover"
                 />
               </div>
@@ -121,10 +128,12 @@ export default function AboutBaliPage() {
             
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/seminyak.jpg"
                   alt="Seminyak"
-                  fill
+                  fallbackText="Seminyak Region"
+                  category="beach"
+                  priority={false}
                   className="object-cover"
                 />
               </div>
@@ -142,10 +151,11 @@ export default function AboutBaliPage() {
             
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/nusa-dua.jpg"
                   alt="Nusa Dua"
-                  fill
+                  fallbackText="Nusa Dua Region"
+                  category="beach"
                   className="object-cover"
                 />
               </div>
@@ -163,10 +173,11 @@ export default function AboutBaliPage() {
             
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/uluwatu.jpg"
                   alt="Uluwatu"
-                  fill
+                  fallbackText="Uluwatu Region"
+                  category="beach"
                   className="object-cover"
                 />
               </div>
@@ -184,10 +195,11 @@ export default function AboutBaliPage() {
             
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/canggu.jpg"
                   alt="Canggu"
-                  fill
+                  fallbackText="Canggu Region"
+                  category="beach"
                   className="object-cover"
                 />
               </div>
@@ -205,10 +217,11 @@ export default function AboutBaliPage() {
             
             <div className="bento-card overflow-hidden">
               <div className="relative h-48">
-                <Image
+                <BaliImage
                   src="/images/regions/north-bali.jpg"
                   alt="North Bali"
-                  fill
+                  fallbackText="North Bali Region"
+                  category="adventure"
                   className="object-cover"
                 />
               </div>
@@ -247,10 +260,11 @@ export default function AboutBaliPage() {
             <div className="md:col-span-2">
               <div className="bento-card overflow-hidden h-full">
                 <div className="relative h-48">
-                  <Image
+                  <BaliImage
                     src="/images/balinese-ceremony.jpg"
                     alt="Balinese Ceremony"
-                    fill
+                    fallbackText="Balinese Culture"
+                    category="culture"
                     className="object-cover"
                   />
                 </div>

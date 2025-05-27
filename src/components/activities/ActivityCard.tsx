@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Star, Clock, Plus, ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import BaliImage from '@/components/ui/BaliImage';
 
 interface ActivityProps {
   activity: {
@@ -47,14 +47,15 @@ export default function ActivityCard({ activity }: ActivityProps) {
     >
       {/* Activity Image */}
       <div className="relative h-48 sm:h-56 w-full overflow-hidden">
-        <Image
+        <BaliImage
           src={activity.image}
           alt={activity.title}
-          fill
-          loading="lazy"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          fallbackText={activity.title}
+          category={activity.category}
+          className="transition-transform duration-500 group-hover:scale-110"
+          priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent z-[1]" />
         
         {/* Category Badge - Added z-index to prevent overlap */}
         <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-primary-600/90 text-white text-xs px-2 py-0.5 sm:py-1 rounded-full z-10">

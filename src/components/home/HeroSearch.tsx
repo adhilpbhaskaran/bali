@@ -99,7 +99,7 @@ export default function HeroSearch() {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search destinations, activities, packages..."
-            className="bg-dark-800/90 backdrop-blur-md border border-white/20 text-white text-sm sm:text-base rounded-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 w-full focus:ring-primary-500 focus:border-primary-500 shadow-lg"
+            className="bg-dark-800/40 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base rounded-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 w-full focus:ring-primary-500 focus:border-primary-500 shadow-lg transition-all duration-300 hover:bg-dark-800/60 focus:bg-dark-800/60"
             autoComplete="off"
           />
           <button 
@@ -113,7 +113,7 @@ export default function HeroSearch() {
 
         {/* Suggestions Dropdown */}
         {showSuggestions && filteredSuggestions.length > 0 && (
-          <div className="absolute z-50 mt-1 w-full bg-dark-800/95 backdrop-blur-md border border-dark-700 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+          <div className="absolute z-50 mt-1 w-full bg-dark-800/70 backdrop-blur-md border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
             <ul className="py-1">
               {filteredSuggestions.map((suggestion) => (
                 <li 

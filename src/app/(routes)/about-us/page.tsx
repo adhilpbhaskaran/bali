@@ -1,25 +1,28 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, Mail, Phone, Award, Users, Clock } from 'lucide-react';
+import BaliImage from '@/components/ui/BaliImage';
 
 export default function AboutUsPage() {
   return (
     <div className="pt-24 pb-16 bg-dark-900 min-h-screen">
       <div className="container-custom">
         {/* Hero Section */}
-        <div className="relative h-80 md:h-96 rounded-bento overflow-hidden mb-12">
-          <Image
+        <div className="relative h-[50vh] md:h-[60vh] rounded-bento overflow-hidden mb-12">
+          <BaliImage
             src="/images/about-us-hero.jpg"
             alt="Bali Malayali Team"
-            fill
+            fallbackText="Our Team"
+            category="culture"
+            priority={true}
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-900/80 to-dark-900/40" />
-          <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About Us</h1>
-            <p className="text-xl text-white/90 max-w-2xl">
+          <div className="absolute inset-0 bg-gradient-to-r from-dark-900/80 to-dark-900/40 z-[1]" />
+          <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 z-[2]">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-slide-up" style={{ fontFamily: 'Samona, sans-serif' }}>About Us</h1>
+            <div className="h-1 w-24 bg-primary-500 mb-6 animate-slide-up" style={{ animationDelay: '0.1s' }}></div>
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
               Your trusted partner for premium Bali experiences, curated by people who understand you
             </p>
           </div>
@@ -41,10 +44,12 @@ export default function AboutUsPage() {
               </p>
             </div>
             <div className="relative h-80 rounded-bento overflow-hidden">
-              <Image
+              <BaliImage
                 src="/images/our-story.jpg"
                 alt="Our Story"
-                fill
+                fallbackText="Our Journey"
+                category="culture"
+                priority={false}
                 className="object-cover"
               />
             </div>
@@ -58,10 +63,11 @@ export default function AboutUsPage() {
             {/* Founder 1 */}
             <div className="bento-card overflow-hidden">
               <div className="relative h-64">
-                <Image
+                <BaliImage
                   src="/images/team/founder1.jpg"
                   alt="Rahul Menon"
-                  fill
+                  fallbackText="Rahul Menon"
+                  category="culture"
                   className="object-cover"
                 />
               </div>
@@ -88,10 +94,11 @@ export default function AboutUsPage() {
             {/* Founder 2 */}
             <div className="bento-card overflow-hidden">
               <div className="relative h-64">
-                <Image
+                <BaliImage
                   src="/images/team/founder2.jpg"
                   alt="Priya Nair"
-                  fill
+                  fallbackText="Priya Nair"
+                  category="culture"
                   className="object-cover"
                 />
               </div>
@@ -118,10 +125,11 @@ export default function AboutUsPage() {
             {/* Founder 3 */}
             <div className="bento-card overflow-hidden">
               <div className="relative h-64">
-                <Image
+                <BaliImage
                   src="/images/team/founder3.jpg"
-                  alt="Made Wayan"
-                  fill
+                  alt="Arun Kumar"
+                  fallbackText="Arun Kumar"
+                  category="culture"
                   className="object-cover"
                 />
               </div>
@@ -188,10 +196,11 @@ export default function AboutUsPage() {
           <h2 className="text-3xl font-bold mb-6">What Sets Us Apart</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative h-80 rounded-bento overflow-hidden">
-              <Image
+              <BaliImage
                 src="/images/what-sets-us-apart.jpg"
                 alt="Bali Malayali Experience"
-                fill
+                fallbackText="What Sets Us Apart"
+                category="culture"
                 className="object-cover"
               />
             </div>

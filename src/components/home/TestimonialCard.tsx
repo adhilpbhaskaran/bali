@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { Star } from 'lucide-react';
+import BaliImage from '@/components/ui/BaliImage';
 
 interface TestimonialProps {
   testimonial: {
@@ -39,12 +39,13 @@ export default function TestimonialCard({ testimonial }: TestimonialProps) {
     <div className="bento-card p-4 sm:p-6 hover:scale-[1.02] transition-all duration-300">
       <div className="flex items-center mb-3 sm:mb-4">
         <div className="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full overflow-hidden mr-2 sm:mr-3">
-          <Image
+          <BaliImage
             src={testimonial.image}
             alt={testimonial.name}
-            fill
-            loading="lazy"
-            className="object-cover"
+            fallbackText={testimonial.name.charAt(0)}
+            aspectRatio="1:1"
+            className="rounded-full"
+            priority={false}
           />
         </div>
         <div>
