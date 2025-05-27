@@ -178,7 +178,7 @@ const generateSampleData = (): AnalyticsData => {
 
 export const useAnalyticsStore = create<AnalyticsStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       analytics: generateSampleData(),
       
       updateDailyStats: (stats) => set((state) => {
@@ -376,7 +376,7 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
         }
         
         // Update customer source if available
-        let updatedSources = [...state.analytics.customerSources];
+        const updatedSources = [...state.analytics.customerSources];
         
         if (bookingData.source) {
           const sourceIndex = state.analytics.customerSources.findIndex(

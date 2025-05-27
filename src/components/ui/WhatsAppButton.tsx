@@ -5,12 +5,11 @@ import { MessageCircle } from 'lucide-react';
 
 export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   
   // Check screen size on mount and resize
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 768);
+      // Screen size check logic can be added here if needed
     };
     
     // Initial check
