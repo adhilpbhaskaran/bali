@@ -80,10 +80,10 @@ export default function AboutBaliPage() {
                 Bali, often called the Island of the Gods, is a paradise on earth that captivates visitors with its stunning landscapes, rich cultural heritage, and warm hospitality. Located in the Indonesian archipelago, this small island packs an incredible diversity of experiences within its shores.
               </p>
               <p className="text-white/80 mb-4">
-                From the moment you arrive, you'll be enchanted by Bali's unique blend of natural beauty and spiritual depth. Terraced rice fields cascade down hillsides, pristine beaches stretch along the coastline, and ancient temples stand as testament to the island's deep-rooted Hindu traditions.
+                From the moment you arrive, you&apos;ll be enchanted by Bali&apos;s unique blend of natural beauty and spiritual depth. Terraced rice fields cascade down hillsides, pristine beaches stretch along the coastline, and ancient temples stand as testament to the island&apos;s deep-rooted Hindu traditions.
               </p>
               <p className="text-white/80">
-                Whether you're seeking adventure, relaxation, cultural immersion, or spiritual awakening, Bali offers something for every traveler. Its magic lies not just in its physical beauty, but in the way it touches your soul and stays with you long after you've left its shores.
+                Whether you&apos;re seeking adventure, relaxation, cultural immersion, or spiritual awakening, Bali offers something for every traveler. Its magic lies not just in its physical beauty, but in the way it touches your soul and stays with you long after you&apos;ve left its shores.
               </p>
             </div>
             <div className="relative h-80 rounded-bento overflow-hidden">
@@ -184,7 +184,7 @@ export default function AboutBaliPage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">Uluwatu</h3>
                 <p className="text-white/70 text-sm mb-4">
-                  Dramatic clifftop area in the Bukit Peninsula, famous for surfing, the iconic sea temple, and stunning sunset views. Home to some of Bali's most Instagram-worthy beach clubs.
+                  Dramatic clifftop area in the Bukit Peninsula, famous for surfing, the iconic sea temple, and stunning sunset views. Home to some of Bali&apos;s most Instagram-worthy beach clubs.
                 </p>
                 <Link href="/packages?region=uluwatu" className="text-primary-400 text-sm flex items-center">
                   Explore Uluwatu Packages
@@ -245,7 +245,7 @@ export default function AboutBaliPage() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div className="md:col-span-3">
               <p className="text-white/80 mb-4">
-                Bali's unique culture is a tapestry of Hindu-Buddhist traditions, ancient rituals, and artistic expressions that permeate every aspect of daily life. Unlike the rest of predominantly Muslim Indonesia, Bali maintains its distinct Hindu heritage, creating a spiritual atmosphere that's palpable throughout the island.
+                Bali&apos;s unique culture is a tapestry of Hindu-Buddhist traditions, ancient rituals, and artistic expressions that permeate every aspect of daily life. Unlike the rest of predominantly Muslim Indonesia, Bali maintains its distinct Hindu heritage, creating a spiritual atmosphere that&apos;s palpable throughout the island.
               </p>
               <p className="text-white/80 mb-4">
                 The Balinese calendar is filled with religious ceremonies and festivals, with temples coming alive with colorful decorations, music, and dance performances. The concept of Tri Hita Karana—harmony between humans, nature, and the divine—guides the Balinese way of life.

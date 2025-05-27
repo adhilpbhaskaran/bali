@@ -24,7 +24,7 @@ export default function LoginPage() {
       
       // Redirect to dashboard after successful login
       window.location.href = '/dashboard';
-    } catch (err) {
+    } catch {
       setError('Invalid email or password. Please try again.');
     } finally {
       setIsLoading(false);

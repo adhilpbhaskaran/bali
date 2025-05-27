@@ -34,13 +34,13 @@ export default function AboutUsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-white/80 mb-4">
-                Bali Malayali was born from a deep love for Bali and a passion for creating meaningful travel experiences. Founded in 2018 by a group of travel enthusiasts from Kerala, India, our journey began when we discovered the magical similarities between Bali's rich culture and our own heritage.
+                Bali Malayali was born from a deep love for Bali and a passion for creating meaningful travel experiences. Founded in 2018 by a group of travel enthusiasts from Kerala, India, our journey began when we discovered the magical similarities between Bali&apos;s rich culture and our own heritage.
               </p>
               <p className="text-white/80 mb-4">
-                What started as a small operation helping friends and family explore Bali has grown into a full-service destination management company. We've maintained our personal touch while expanding our offerings to serve travelers from around the world.
+                What started as a small operation helping friends and family explore Bali has grown into a full-service destination management company. We&apos;ve maintained our personal touch while expanding our offerings to serve travelers from around the world.
               </p>
               <p className="text-white/80">
-                Our name "Bali Malayali" represents the bridge we've built between Bali and our Kerala roots. As Malayalis (people from Kerala) who fell in love with Bali, we bring a unique perspective that combines deep local knowledge with an understanding of what makes a truly memorable journey.
+                Our name &quot;Bali Malayali&quot; represents the bridge we&apos;ve built between Bali and our Kerala roots. As Malayalis (people from Kerala) who fell in love with Bali, we bring a unique perspective that combines deep local knowledge with an understanding of what makes a truly memorable journey.
               </p>
             </div>
             <div className="relative h-80 rounded-bento overflow-hidden">
@@ -75,7 +75,7 @@ export default function AboutUsPage() {
                 <h3 className="text-xl font-semibold mb-1">Rahul Menon</h3>
                 <p className="text-primary-400 text-sm mb-3">Founder & CEO</p>
                 <p className="text-white/70 text-sm mb-4">
-                  A travel enthusiast with over 15 years of experience in the tourism industry. Rahul's vision and leadership have been instrumental in establishing Bali Malayali as a trusted name in premium travel experiences.
+                  A travel enthusiast with over 15 years of experience in the tourism industry. Rahul&apos;s vision and leadership have been instrumental in establishing Bali Malayali as a trusted name in premium travel experiences.
                 </p>
                 <div className="flex space-x-3">
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors">
@@ -165,7 +165,7 @@ export default function AboutUsPage() {
               </div>
               <h3 className="text-xl font-semibold mb-3">Excellence</h3>
               <p className="text-white/70">
-                We're committed to delivering exceptional experiences that exceed expectations. From the moment you contact us to the end of your journey, we strive for excellence in every detail.
+                We&apos;re committed to delivering exceptional experiences that exceed expectations. From the moment you contact us to the end of your journey, we strive for excellence in every detail.
               </p>
             </div>
             
@@ -185,7 +185,7 @@ export default function AboutUsPage() {
               </div>
               <h3 className="text-xl font-semibold mb-3">Personalization</h3>
               <p className="text-white/70">
-                We understand that every traveler is unique. That's why we take the time to understand your preferences and create customized experiences that reflect your interests and travel style.
+                We understand that every traveler is unique. That&apos;s why we take the time to understand your preferences and create customized experiences that reflect your interests and travel style.
               </p>
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function AboutUsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Sustainable Tourism</h3>
-                    <p className="text-white/70 text-sm">We're committed to responsible travel practices that respect Bali's environment and culture. We partner with local communities and support conservation efforts.</p>
+                    <p className="text-white/70 text-sm">We&apos;re committed to responsible travel practices that respect Bali&apos;s environment and culture. We partner with local communities and support conservation efforts.</p>
                   </div>
                 </li>
               </ul>
@@ -253,7 +253,7 @@ export default function AboutUsPage() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold mb-6">Get in Touch</h2>
               <p className="text-white/80 mb-6">
-                We'd love to hear from you and help plan your perfect Bali experience. 
+                We&apos;d love to hear from you and help plan your perfect Bali experience. 
                 Reach out to us through any of the following channels:
               </p>
               <div className="space-y-4">

@@ -173,7 +173,7 @@ export default function ActivitiesPage() {
   const [selectedDuration, setSelectedDuration] = useState('all');
   const [selectedPrice, setSelectedPrice] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount] = useState(0);
 
   // Filter activities based on selected filters
   const filteredActivities = allActivities.filter((activity) => {

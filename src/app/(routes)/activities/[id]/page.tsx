@@ -124,7 +124,9 @@ const activityData = {
   ]
 };
 
-export default function ActivityDetailPage({ params }: { params: { id: string } }) {
+export default function ActivityDetail({ params }: { params: { id: string } }) {
+  // Using params to get the activity ID
+  const activityId = params.id;
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [guests, setGuests] = useState(2);
@@ -259,7 +261,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                 {/* Inclusions Tab */}
                 <TabsContent value="inclusions" className="space-y-6">
                   <div className="bento-card">
-                    <h2 className="text-xl font-semibold mb-4">What's Included</h2>
+                    <h2 className="text-xl font-semibold mb-4">What&apos;s Included</h2>
                     <div className="mb-6">
                       {activityData.inclusions.map((inclusion, index) => (
                         <div key={index} className="flex items-start mb-2">
@@ -269,7 +271,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                       ))}
                     </div>
 
-                    <h2 className="text-xl font-semibold mb-4">What's Not Included</h2>
+                    <h2 className="text-xl font-semibold mb-4">What&apos;s Not Included</h2>
                     <div>
                       {activityData.exclusions.map((exclusion, index) => (
                         <div key={index} className="flex items-start mb-2">
@@ -475,7 +477,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
               </div>
               <div className="p-4">
                 <h3 className="text-lg font-semibold mb-1">Bali Swing Experience</h3>
-                <p className="text-white/70 text-sm mb-3 line-clamp-2">Soar high above the jungle canopy on Bali's famous swings</p>
+                <p className="text-white/70 text-sm mb-3 line-clamp-2">Soar high above the jungle canopy on Bali&apos;s famous swings</p>
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-lg font-bold">$30</span>
