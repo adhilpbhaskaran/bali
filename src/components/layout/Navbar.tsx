@@ -160,16 +160,7 @@ export default function Navbar() {
             <button className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-dark-800 transition-colors">
               <Search size={20} />
             </button>
-            <Link 
-              href="/auth/login" 
-              className="flex items-center px-4 py-2 rounded-lg text-white/80 hover:text-white hover:bg-dark-800 transition-colors"
-            >
-              <LogIn size={18} className="mr-2" />
-              Login
-            </Link>
-            <Link href="/auth/register" className="btn-primary">
-              Sign Up
-            </Link>
+            {/* Authentication links removed for deployment testing */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -271,23 +262,7 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            <div className="border-t border-dark-700 my-2 pt-2"></div>
-            <Link 
-              href="/auth/login" 
-              className="flex items-center px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-dark-800 transition-colors"
-              onClick={closeMenu}
-            >
-              <LogIn size={18} className="mr-2" />
-              Login
-            </Link>
-            <Link 
-              href="/auth/register" 
-              className="flex items-center px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-dark-800 transition-colors"
-              onClick={closeMenu}
-            >
-              <User size={18} className="mr-2" />
-              Sign Up
-            </Link>
+            {/* Mobile authentication links removed for deployment testing */}
           </nav>
         </div>
       </div>

@@ -507,9 +507,7 @@ export default function BookingForm({
           </p>
           
           <div className="flex flex-col md:flex-row gap-4">
-            <a href="/dashboard" className="btn-secondary">
-              View in Dashboard
-            </a>
+            {/* Dashboard link removed for deployment testing */}
             <a href="/" className="btn-primary flex-1">
               Return to Homepage
             </a>

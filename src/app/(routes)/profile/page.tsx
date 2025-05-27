@@ -62,10 +62,7 @@ export default function ProfilePage() {
                   <h1 className="text-xl sm:text-2xl font-bold">{user.name}</h1>
                   <p className="text-white/70 text-sm">{user.email}</p>
                 </div>
-                <Link href="/auth/logout" className="btn-secondary flex items-center justify-center gap-1 text-sm py-1.5 px-3">
-                  <LogOut size={16} />
-                  <span>Logout</span>
-                </Link>
+                {/* Logout link removed for deployment testing */}
               </div>
               
               <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-3 sm:mt-4">

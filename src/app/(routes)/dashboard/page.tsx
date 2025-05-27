@@ -121,15 +121,7 @@ export default function DashboardPage() {
                       <span>Profile Settings</span>
                     </button>
                   </li>
-                  <li>
-                    <Link
-                      href="/auth/logout"
-                      className="flex items-center w-full px-6 py-4 text-left hover:bg-dark-700 transition-colors text-red-400 hover:text-red-300"
-                    >
-                      <LogOut size={18} className="mr-3" />
-                      <span>Logout</span>
-                    </Link>
-                  </li>
+                  {/* Logout link removed for deployment testing */}
                 </ul>
               </nav>
             </div>

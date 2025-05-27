@@ -12,14 +12,12 @@ import {
   Settings, 
   Menu, 
   X, 
-  LogOut,
   ExternalLink,
   Star,
   Calendar,
   BarChart
 } from 'lucide-react';
-import { useSession, signOut } from 'next-auth/react';
-import { AuthProvider } from './providers';
+// NextAuth authentication removed for deployment testing
 
 const navigation = [
   { name: 'Dashboard', href: '/admin-dashboard', icon: LayoutDashboard },
@@ -38,18 +36,16 @@ function AdminLayoutContent({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
+  // Authentication removed for deployment testing
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if user is authenticated
+  // Authentication check removed for deployment testing
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/admin-dashboard/login');
-    }
-  }, [status, router]);
+    // Authentication logic removed
+  }, [router]);
 
   // Handle responsive sidebar
   useEffect(() => {
@@ -65,13 +61,7 @@ function AdminLayoutContent({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (status === 'loading') {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-dark-900">
-        <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-primary-500"></div>
-      </div>
-    );
-  }
+  // Loading state removed for deployment testing
 
   const isActive = (path: string) => {
     if (path === '/admin-dashboard' && pathname === '/admin-dashboard') return true;
@@ -135,20 +125,14 @@ function AdminLayoutContent({
           <div className="p-4 border-t border-dark-700">
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-primary-600/30 flex items-center justify-center">
-                {session?.user?.name?.charAt(0) || 'A'}
+                A
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium">{session?.user?.name || 'Admin'}</p>
-                <p className="text-xs text-white/60">{session?.user?.email || ''}</p>
+                <p className="text-sm font-medium">Admin</p>
+                <p className="text-xs text-white/60">admin@balimalayali.com</p>
               </div>
             </div>
-            <button
-              onClick={() => signOut({ callbackUrl: '/admin-dashboard/login' })}
-              className="mt-4 flex w-full items-center justify-center rounded-lg bg-dark-700 px-4 py-2 text-sm hover:bg-dark-600 transition-colors"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign out
-            </button>
+            {/* Sign out button removed for deployment testing */}
           </div>
         </div>
       </div>
@@ -165,8 +149,6 @@ function AdminLayoutContent({
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
-      <AdminLayoutContent>{children}</AdminLayoutContent>
-    </AuthProvider>
+    <AdminLayoutContent>{children}</AdminLayoutContent>
   );
 }

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, User } from 'lucide-react';
-import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -21,7 +20,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
-  const { isSignedIn, user } = useUser();
   
   // Check screen size on mount and resize
   useEffect(() => {
@@ -91,31 +89,9 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Authentication Buttons */}
+          {/* Navigation Actions */}
           <div className="hidden md:flex items-center gap-3">
-            {isSignedIn ? (
-              <div className="flex items-center gap-3">
-                <Link href="/dashboard" className="text-white/80 hover:text-white text-sm">
-                  Dashboard
-                </Link>
-                <UserButton 
-                  afterSignOutUrl="/"
-                  appearance={{
-                    elements: {
-                      avatarBox: "h-8 w-8",
-                      userButtonPopoverCard: "bg-dark-800 border border-dark-700",
-                      userButtonPopoverActionButton: "text-white hover:bg-dark-700",
-                    }
-                  }}
-                />
-              </div>
-            ) : (
-              <SignInButton mode="modal">
-                <button className="btn-gold text-xs lg:text-sm py-1.5 px-3 lg:py-2 lg:px-4">
-                  Sign In
-                </button>
-              </SignInButton>
-            )}
+            {/* Authentication removed for deployment testing */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -153,41 +129,7 @@ export default function Header() {
                 </Link>
               ))}
               
-              {/* Mobile Authentication */}
-              <div className="pt-2 mt-2 border-t border-dark-700 space-y-2">
-                {isSignedIn ? (
-                  <div className="flex flex-col space-y-2">
-                    <Link
-                      href="/dashboard"
-                      className="text-white/80 hover:text-white py-2 px-3 rounded-md hover:bg-dark-700/50 transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Dashboard
-                    </Link>
-                    <div className="px-3 py-2">
-                      <UserButton 
-                        afterSignOutUrl="/"
-                        appearance={{
-                          elements: {
-                            avatarBox: "h-8 w-8",
-                            userButtonPopoverCard: "bg-dark-800 border border-dark-700",
-                            userButtonPopoverActionButton: "text-white hover:bg-dark-700",
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <SignInButton mode="modal">
-                    <button 
-                      className="btn-gold w-full text-center py-2.5 text-sm sm:text-base"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Sign In
-                    </button>
-                  </SignInButton>
-                )}
-              </div>
+              {/* Mobile Authentication removed for deployment testing */}
             </nav>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { 
   Upload, 
@@ -60,7 +60,6 @@ const documents = [
 export default function TravelDocuments() {
   const [uploadingDocument, setUploadingDocument] = useState(false);
   const [documentsList, setDocumentsList] = useState(documents);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [newDocument, setNewDocument] = useState({
     type: 'passport',
     title: '',
@@ -70,22 +69,6 @@ export default function TravelDocuments() {
     expiryDate: '',
     file: null as File | null
   });
-  
-  // Check screen size on mount and resize
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkScreenSize();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkScreenSize);
-    
-    // Cleanup
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
 
   const documentTypes = [
     { value: 'passport', label: 'Passport' },
