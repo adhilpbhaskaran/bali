@@ -93,13 +93,13 @@ export default function HeroSearch() {
     <div className="w-full max-w-2xl mx-auto" ref={searchRef}>
       <form onSubmit={handleSearch} className="relative">
         <div className="relative">
-          <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-white/70 h-4 w-4 sm:h-5 sm:w-5" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-white h-4 w-4 sm:h-5 sm:w-5" />
           <input
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search destinations, activities, packages..."
-            className="bg-dark-800/40 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base rounded-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 w-full focus:ring-primary-500 focus:border-primary-500 shadow-lg transition-all duration-300 hover:bg-dark-800/60 focus:bg-dark-800/60"
+            className="bg-dark-800/70 backdrop-blur-sm border border-white/40 text-white placeholder-white/80 text-sm sm:text-base rounded-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 w-full focus:ring-primary-500 focus:border-primary-500 shadow-lg transition-all duration-300 hover:bg-dark-800/80 focus:bg-dark-800/80"
             autoComplete="off"
           />
           <button 

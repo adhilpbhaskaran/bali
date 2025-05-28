@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { Menu, X, User } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, User, LogOut } from 'lucide-react';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -19,8 +19,30 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const pathname = usePathname();
+  const router = useRouter();
   
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (response.ok) {
+          const userData = await response.json();
+          setIsAuthenticated(true);
+          setUser(userData.user);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    };
+    
+    checkAuth();
+  }, [pathname]);
+
   // Check screen size on mount and resize
   useEffect(() => {
     const checkScreenSize = () => {
@@ -64,7 +86,7 @@ export default function Header() {
           <Link href="/" className="relative z-10">
             <div className="flex items-center">
               <Image
-                src="/images/logo.png"
+                src="/images/logo/transparent.svg"
                 alt="Bali Malayali"
                 width={150}
                 height={50}
@@ -75,23 +97,50 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`nav-link text-xs lg:text-sm font-medium ${
-                  pathname === item.href ? 'text-white font-semibold' : ''
-                }`}
+                className="text-sm font-medium text-white hover:text-primary-400 transition-colors duration-300"
               >
                 {item.name}
               </Link>
             ))}
-          </nav>
+          </div>
 
-          {/* Navigation Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Authentication removed for deployment testing */}
+          {/* Auth Section - Top Right */}
+          <div className="hidden md:flex items-center">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <Link 
+                  href="/dashboard" 
+                  className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span>{user?.firstName || 'Dashboard'}</span>
+                </Link>
+                <button 
+                  onClick={async () => {
+                    await fetch('/api/auth/logout', { method: 'POST' });
+                    setIsAuthenticated(false);
+                    setUser(null);
+                    router.push('/');
+                  }}
+                  className="text-white hover:text-red-400 transition-colors flex items-center space-x-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <Link 
+                href="/auth/login" 
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mr-4"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -120,16 +169,47 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link text-sm sm:text-base py-2 px-3 rounded-md hover:bg-dark-700/50 transition-colors ${
-                    pathname === item.href ? 'text-white font-semibold bg-dark-700/30' : ''
-                  }`}
+                  className="nav-link text-sm sm:text-base py-2 px-3 rounded-md hover:bg-dark-700/50 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               
-              {/* Mobile Authentication removed for deployment testing */}
+              {/* Mobile Auth Section */}
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-2 mt-3">
+                  <Link 
+                    href="/dashboard" 
+                    className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-2 py-2 px-3 rounded-md hover:bg-dark-700/50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <User className="h-4 w-4" />
+                    <span>{user?.firstName || 'Dashboard'}</span>
+                  </Link>
+                  <button 
+                    onClick={async () => {
+                      await fetch('/api/auth/logout', { method: 'POST' });
+                      setIsAuthenticated(false);
+                      setUser(null);
+                      setMobileMenuOpen(false);
+                      router.push('/');
+                    }}
+                    className="text-white hover:text-red-400 transition-colors flex items-center space-x-2 py-2 px-3 rounded-md hover:bg-dark-700/50 text-left"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  href="/auth/login" 
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mt-3 text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )}
             </nav>
           </div>
         </div>

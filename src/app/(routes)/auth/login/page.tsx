@@ -18,14 +18,25 @@ export default function LoginPage() {
     setError('');
 
     try {
-      // In a real application, this would authenticate with a server
-      // For now, we'll simulate a login process
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Redirect to dashboard after successful login
-      window.location.href = '/dashboard';
-    } catch {
-      setError('Invalid email or password. Please try again.');
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Redirect to dashboard after successful login
+        window.location.href = '/dashboard';
+      } else {
+        setError(data.error || 'Login failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsLoading(false);
     }

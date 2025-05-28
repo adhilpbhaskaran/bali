@@ -66,7 +66,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/">
               <Image
-                src="/images/logo.png"
+                src="/images/logo/transparent.svg"
                 alt="Bali Malayali"
                 width={150}
                 height={50}
@@ -113,9 +113,17 @@ export default function Footer() {
         <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <div className="mb-4 sm:mb-0">
-              <p className="text-white/70 text-xs sm:text-sm text-center sm:text-left">
-                &copy; {new Date().getFullYear()} Bali Malayali. All rights reserved.
-              </p>
+              <div className="flex flex-col md:flex-row items-center gap-4">
+                <p className="text-white/70 text-xs sm:text-sm text-center sm:text-left">
+                  &copy; {new Date().getFullYear()} Bali Malayali. All rights reserved.
+                </p>
+                <Link 
+                  href="/admin-dashboard" 
+                  className="text-white/70 hover:text-white text-xs sm:text-sm transition-colors underline"
+                >
+                  Agent Portal
+                </Link>
+              </div>
             </div>
             <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:space-x-6">
               <Link href="/terms" className="text-white/70 hover:text-white transition-colors text-xs sm:text-sm">

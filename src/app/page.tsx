@@ -178,7 +178,7 @@ export default function Home() {
             <div className="max-w-5xl mx-auto">
               <div className="mb-6 md:mb-8">
                 <h1 className="font-bold animate-slide-up">
-                  <span className="text-white block text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight" style={{ fontFamily: 'Samona, sans-serif' }}>Discover Bali</span>
+                  <span className="text-white block text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-tight" style={{ fontFamily: 'Samona, sans-serif' }}>Discover Bali</span>
                   <span className="text-white/90 block text-sm sm:text-lg md:text-2xl lg:text-3xl mt-3 sm:mt-4">Your Adventure Awaits!</span>
                 </h1>
               </div>

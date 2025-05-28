@@ -45,14 +45,32 @@ export default function RegisterPage() {
     }
 
     try {
-      // In a real application, this would register with a server
-      // For now, we'll simulate a registration process
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Show success message
-      setIsSubmitted(true);
-    } catch {
-      setError('An error occurred during registration. Please try again.');
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Show success message
+        setIsSubmitted(true);
+      } else {
+        setError(data.error || 'Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsLoading(false);
     }

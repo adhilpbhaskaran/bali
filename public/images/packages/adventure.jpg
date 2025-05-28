@@ -1,0 +1,13 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="url(#gradient2)"/>
+  <defs>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#44a08d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <polygon points="200,100 220,140 180,140" fill="white" opacity="0.4"/>
+  <circle cx="200" cy="150" r="30" fill="white" opacity="0.2"/>
+  <text x="200" y="160" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">Adventure</text>
+  <text x="200" y="185" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="white" opacity="0.8">Package</text>
+</svg>
