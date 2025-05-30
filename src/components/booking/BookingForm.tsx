@@ -127,12 +127,12 @@ export default function BookingForm({
       {currentStep === 1 && (
         <div>
           <div className="mb-6">
-            <h3 className="font-medium mb-4">You&apos;re booking: {title}</h3>
+            <h3 className="font-medium mb-4">You&apos;re booking: {item.title}</h3>
             
             <div className="mb-4">
               <label className="block text-sm text-white/70 mb-2">Select Date</label>
               <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto pr-2">
-                {availableDates.map((dateOption) => (
+                {item.availableDates.map((dateOption) => (
                   <button
                     key={dateOption.date}
                     type="button"
@@ -190,13 +190,13 @@ export default function BookingForm({
                 <button 
                   type="button"
                   className="px-4 py-2 text-white/70 hover:text-white disabled:opacity-50"
-                  onClick={() => setGuests(Math.min(maxGuests, guests + 1))}
-                  disabled={guests >= maxGuests}
+                  onClick={() => setGuests(Math.min(item.maxGuests, guests + 1))}
+                  disabled={guests >= item.maxGuests}
                 >
                   +
                 </button>
               </div>
-              <p className="text-xs text-white/60 mt-1">Max {maxGuests} guests for this {type}</p>
+              <p className="text-xs text-white/60 mt-1">Max {item.maxGuests} guests for this {type}</p>
             </div>
           </div>
 
@@ -480,7 +480,7 @@ export default function BookingForm({
               <div className="font-medium">BM-{Math.floor(100000 + Math.random() * 900000)}</div>
               
               <div className="text-white/70">{type === 'package' ? 'Package' : 'Activity'}:</div>
-              <div className="font-medium">{title}</div>
+              <div className="font-medium">{item.title}</div>
               
               <div className="text-white/70">Date:</div>
               <div className="font-medium">
