@@ -4,27 +4,24 @@ import { useState } from 'react';
 import { Calendar, Users, CreditCard, CheckCircle } from 'lucide-react';
 
 interface BookingFormProps {
-  packageId?: number;
-  activityId?: number;
-  title: string;
-  price: number;
-  type: 'package' | 'activity';
-  maxGuests: number;
-  availableDates: {
-    date: string;
+  item: {
+    id: number;
+    title: string;
     price: number;
-    availability: 'available' | 'limited' | 'booked';
-  }[];
+    discountPrice?: number;
+    maxGuests: number;
+    availableDates: {
+      date: string;
+      price: number;
+      availability: 'available' | 'limited' | 'booked';
+    }[];
+  };
+  type: string;
 }
 
 export default function BookingForm({
-  packageId,
-  activityId,
-  title,
-  price,
-  type,
-  maxGuests,
-  availableDates
+  item,
+  type
 }: BookingFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -66,9 +63,9 @@ export default function BookingForm({
   };
 
   const getSelectedDatePrice = () => {
-    if (!selectedDate) return price;
-    const dateOption = availableDates.find(d => d.date === selectedDate);
-    return dateOption ? dateOption.price : price;
+    if (!selectedDate) return item.discountPrice || item.price;
+    const dateOption = item.availableDates.find(d => d.date === selectedDate);
+    return dateOption ? dateOption.price : (item.discountPrice || item.price);
   };
 
   const calculateTotal = () => {

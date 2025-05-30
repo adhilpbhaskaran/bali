@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -124,7 +124,8 @@ const activities = [
   }
 ];
 
-export default function BookingPage() {
+// Wrap the component that uses useSearchParams in Suspense
+function BookingContent() {
   const searchParams = useSearchParams();
   const type = searchParams.get('type') || 'package';
   const id = searchParams.get('id');
@@ -134,146 +135,120 @@ export default function BookingPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // In a real application, this would fetch data from an API
-    // For now, we'll use our sample data
-    setLoading(true);
-    
-    try {
-      if (type === 'package' && id) {
-        const pkg = packages.find(p => p.id.toString() === id);
-        if (pkg) {
-          setBookingItem({
-            ...pkg,
-            type: 'package'
-          });
-        } else {
-          setError('Package not found');
-        }
-      } else if (type === 'activity' && id) {
-        const activity = activities.find(a => a.id.toString() === id);
-        if (activity) {
-          setBookingItem({
-            ...activity,
-            type: 'activity'
-          });
-        } else {
-          setError('Activity not found');
-        }
+    // Find the selected package or activity
+    if (type === 'package' && id) {
+      const selectedPackage = packages.find(p => p.id.toString() === id);
+      if (selectedPackage) {
+        setBookingItem(selectedPackage);
       } else {
-        setError('Invalid booking type or ID');
+        setError('Package not found');
       }
-    } catch {
-      setError('An error occurred while loading the booking information');
-    } finally {
-      setLoading(false);
+    } else if (type === 'activity' && id) {
+      const selectedActivity = activities.find(a => a.id.toString() === id);
+      if (selectedActivity) {
+        setBookingItem(selectedActivity);
+      } else {
+        setError('Activity not found');
+      }
+    } else {
+      setError('Invalid booking type or ID');
     }
+    
+    setLoading(false);
   }, [type, id]);
 
-  return (
-    <div className="pt-24 pb-16 bg-dark-900 min-h-screen">
-      <div className="container-custom">
-        {/* Breadcrumb */}
-        <div className="text-sm text-white/60 mb-6">
-          <Link href="/" className="hover:text-primary-500">Home</Link> {' / '}
-          {type === 'package' ? (
-            <>
-              <Link href="/packages" className="hover:text-primary-500">Packages</Link> {' / '}
-              {bookingItem && (
-                <>
-                  <Link href={`/packages/${id}`} className="hover:text-primary-500">{bookingItem.title}</Link> {' / '}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <Link href="/activities" className="hover:text-primary-500">Activities</Link> {' / '}
-              {bookingItem && (
-                <>
-                  <Link href={`/activities/${id}`} className="hover:text-primary-500">{bookingItem.title}</Link> {' / '}
-                </>
-              )}
-            </>
-          )}
-          <span className="text-white">Booking</span>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error || !bookingItem) {
+    return (
+      <div className="container-custom py-16">
+        <div className="bento-card p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Booking Error</h2>
+          <p className="text-white/70 mb-6">{error || 'Unable to load booking information'}</p>
+          <Link href="/packages" className="btn-primary">
+            Browse Packages
+          </Link>
         </div>
+      </div>
+    );
+  }
 
-        <h1 className="text-3xl font-bold mb-8">Complete Your Booking</h1>
+  const item = bookingItem as any;
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Booking Form */}
-          <div className="lg:col-span-2">
-            {loading ? (
-              <div className="bento-card p-8 text-center">
-                <p className="text-white/70">Loading booking information...</p>
-              </div>
-            ) : error ? (
-              <div className="bento-card p-8 text-center">
-                <p className="text-red-500 mb-4">{error}</p>
-                <Link href="/" className="btn-primary">
-                  Return to Homepage
-                </Link>
-              </div>
-            ) : bookingItem ? (
-              <BookingForm
-                packageId={type === 'package' ? bookingItem.id : undefined}
-                activityId={type === 'activity' ? bookingItem.id : undefined}
-                title={bookingItem.title}
-                price={bookingItem.discountPrice || bookingItem.price}
-                type={bookingItem.type}
-                maxGuests={bookingItem.maxGuests}
-                availableDates={bookingItem.availableDates}
+  return (
+    <div className="container-custom py-16">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Booking Item Details */}
+        <div className="lg:col-span-2">
+          <div className="bento-card overflow-hidden">
+            <div className="relative h-64 sm:h-80">
+              <Image 
+                src={item.image} 
+                alt={item.title}
+                fill
+                className="object-cover"
               />
-            ) : null}
-          </div>
-
-          {/* Right Column - Booking Summary */}
-          <div className="lg:col-span-1">
-            {!loading && !error && bookingItem && (
-              <div className="bento-card sticky top-24">
-                <h2 className="text-xl font-semibold mb-4">Booking Summary</h2>
-                
-                <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
-                  <Image 
-                    src={bookingItem.image || '/images/placeholder.jpg'} 
-                    alt={bookingItem.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                
-                <h3 className="text-lg font-semibold mb-1">{bookingItem.title}</h3>
-                <p className="text-white/70 text-sm mb-4">{bookingItem.description}</p>
-                
-                <div className="space-y-2 mb-6">
-                  <div className="flex justify-between">
-                    <span className="text-white/70">Category:</span>
-                    <span className="font-medium">{bookingItem.category}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-white/70">Duration:</span>
-                    <span className="font-medium">{bookingItem.duration}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-white/70">Price:</span>
-                    <div>
-                      <span className="font-medium">${bookingItem.discountPrice || bookingItem.price}</span>
-                      {bookingItem.discountPrice && bookingItem.discountPrice < bookingItem.price && (
-                        <span className="text-white/60 line-through ml-2">${bookingItem.price}</span>
-                      )}
+            </div>
+            <div className="p-6">
+              <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                <h1 className="text-2xl sm:text-3xl font-bold">{item.title}</h1>
+                <div>
+                  {item.discountPrice < item.price ? (
+                    <div className="text-right">
+                      <span className="text-white/50 line-through mr-2">${item.price}</span>
+                      <span className="text-2xl font-bold text-primary">${item.discountPrice}</span>
                     </div>
-                  </div>
-                </div>
-                
-                <div className="border-t border-dark-700 pt-4">
-                  <p className="text-white/70 text-sm">
-                    Need help with your booking? Contact our support team at <a href="mailto:support@balimalayali.com" className="text-primary-500 hover:underline">support@balimalayali.com</a> or call us at <a href="tel:+6281234567890" className="text-primary-500 hover:underline">+62 812-3456-7890</a>.
-                  </p>
+                  ) : (
+                    <span className="text-2xl font-bold text-primary">${item.price}</span>
+                  )}
+                  <p className="text-sm text-white/60">per person</p>
                 </div>
               </div>
-            )}
+              
+              <p className="text-white/80 mb-6">{item.description}</p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <span className="text-primary">⏱</span>
+                  <span>{item.duration}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-primary">👥</span>
+                  <span>Max {item.maxGuests} guests</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-primary">🏷️</span>
+                  <span className="capitalize">{item.category}</span>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+        
+        {/* Booking Form */}
+        <div className="lg:col-span-1">
+          <BookingForm item={item} type={type} />
         </div>
       </div>
     </div>
+  );
+}
+
+// Main component that wraps BookingContent with Suspense
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <BookingContent />
+    </Suspense>
   );
 }

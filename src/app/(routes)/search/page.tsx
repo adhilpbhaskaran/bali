@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -165,7 +165,8 @@ const allActivities = [
 // Combine packages and activities for search
 const allItems = [...allPackages, ...allActivities];
 
-export default function SearchPage() {
+// Component that uses useSearchParams wrapped in Suspense
+function SearchContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   const initialType = searchParams.get('type') || 'all';
@@ -259,11 +260,10 @@ export default function SearchPage() {
     }
   };
 
-  // Clear all filters
-  const clearFilters = () => {
-    setSelectedCategories([]);
-    setSelectedDurations([]);
-    setPriceRange([0, 2000]);
+  // Handle search form submission
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // The search is already handled by the useEffect
   };
 
   return (
@@ -277,117 +277,101 @@ export default function SearchPage() {
             {searchQuery ? ` for "${searchQuery}"` : ''}
           </p>
         </div>
-
-        {/* Search Bar */}
-        <div className="bento-card mb-8">
+        
+        {/* Search Form */}
+        <form onSubmit={handleSearch} className="mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" />
               <input
                 type="text"
-                placeholder="Search packages, activities, destinations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-dark-800 border border-dark-700 text-white rounded-lg pl-10 pr-4 py-3 w-full focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Search packages, activities, or destinations"
+                className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-dark-700 rounded-lg focus:outline-none focus:border-primary-500"
               />
             </div>
             <div className="flex gap-2">
               <select
                 value={searchType}
                 onChange={(e) => setSearchType(e.target.value)}
-                className="bg-dark-800 border border-dark-700 text-white rounded-lg px-4 py-3 focus:ring-primary-500 focus:border-primary-500"
+                className="px-4 py-3 bg-dark-800 border border-dark-700 rounded-lg focus:outline-none focus:border-primary-500"
               >
                 <option value="all">All Types</option>
                 <option value="package">Packages</option>
                 <option value="activity">Activities</option>
               </select>
-              <button 
-                className="btn-secondary flex items-center"
+              <button
+                type="button"
                 onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 px-4 py-3 bg-dark-800 border border-dark-700 rounded-lg hover:bg-dark-700 transition-colors"
               >
-                <Filter size={18} className="mr-2" />
-                Filters
+                <Filter size={18} />
+                <span className="hidden sm:inline">Filters</span>
               </button>
             </div>
           </div>
-
-          {/* Filters Section */}
+          
+          {/* Filters */}
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-dark-700">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Filters</h2>
-                <button 
-                  className="text-primary-500 text-sm flex items-center"
-                  onClick={clearFilters}
-                >
-                  <X size={14} className="mr-1" />
-                  Clear All
-                </button>
-              </div>
-
+            <div className="mt-4 p-6 bg-dark-800 border border-dark-700 rounded-lg">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Price Range */}
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Price Range</h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex items-center bg-dark-800 border border-dark-700 rounded-lg px-3 py-2">
-                      <DollarSign size={14} className="text-white/70 mr-1" />
+                  <h3 className="text-lg font-medium mb-3">Price Range</h3>
+                  <div className="flex items-center gap-4">
+                    <div className="relative flex-grow">
+                      <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" size={16} />
                       <input
                         type="number"
-                        min="0"
-                        max={priceRange[1]}
                         value={priceRange[0]}
                         onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
-                        className="bg-transparent w-full focus:outline-none"
+                        min="0"
+                        max={priceRange[1]}
+                        className="w-full pl-10 pr-4 py-2 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary-500"
                       />
                     </div>
-                    <span className="text-white/70">to</span>
-                    <div className="flex items-center bg-dark-800 border border-dark-700 rounded-lg px-3 py-2">
-                      <DollarSign size={14} className="text-white/70 mr-1" />
+                    <span>to</span>
+                    <div className="relative flex-grow">
+                      <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" size={16} />
                       <input
                         type="number"
-                        min={priceRange[0]}
                         value={priceRange[1]}
                         onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                        className="bg-transparent w-full focus:outline-none"
+                        min={priceRange[0]}
+                        className="w-full pl-10 pr-4 py-2 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary-500"
                       />
                     </div>
                   </div>
                 </div>
-
+                
                 {/* Categories */}
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Categories</h3>
+                  <h3 className="text-lg font-medium mb-3">Categories</h3>
                   <div className="flex flex-wrap gap-2">
                     {categories.map((category) => (
                       <button
                         key={category.value}
-                        className={`px-3 py-1 text-sm rounded-full ${
-                          selectedCategories.includes(category.value)
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-dark-800 text-white/70 hover:bg-dark-700'
-                        }`}
+                        type="button"
                         onClick={() => toggleCategory(category.value)}
+                        className={`px-3 py-1 rounded-full text-sm ${selectedCategories.includes(category.value) ? 'bg-primary-500 text-white' : 'bg-dark-700 text-white/70 hover:bg-dark-600'}`}
                       >
                         {category.name}
                       </button>
                     ))}
                   </div>
                 </div>
-
+                
                 {/* Duration */}
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Duration</h3>
+                  <h3 className="text-lg font-medium mb-3">Duration</h3>
                   <div className="flex flex-wrap gap-2">
                     {durations.map((duration) => (
                       <button
                         key={duration.value}
-                        className={`px-3 py-1 text-sm rounded-full ${
-                          selectedDurations.includes(duration.value)
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-dark-800 text-white/70 hover:bg-dark-700'
-                        }`}
+                        type="button"
                         onClick={() => toggleDuration(duration.value)}
+                        className={`px-3 py-1 rounded-full text-sm ${selectedDurations.includes(duration.value) ? 'bg-primary-500 text-white' : 'bg-dark-700 text-white/70 hover:bg-dark-600'}`}
                       >
                         {duration.name}
                       </button>
@@ -395,78 +379,129 @@ export default function SearchPage() {
                   </div>
                 </div>
               </div>
+              
+              <div className="flex justify-between mt-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategories([]);
+                    setSelectedDurations([]);
+                    setPriceRange([0, 2000]);
+                  }}
+                  className="text-white/70 hover:text-white"
+                >
+                  Reset Filters
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowFilters(false)}
+                  className="text-primary-500 hover:text-primary-400"
+                >
+                  Apply Filters
+                </button>
+              </div>
             </div>
           )}
-        </div>
-
-        {/* Results */}
+        </form>
+        
+        {/* Search Results */}
         {results.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {results.map((item) => (
               <Link 
+                href={`/${item.type === 'package' ? 'packages' : 'activities'}/${item.id}`} 
                 key={`${item.type}-${item.id}`}
-                href={`/${item.type}s/${item.id}`}
-                className="bento-card p-0 overflow-hidden hover:shadow-bento-hover transition-shadow"
+                className="bento-card overflow-hidden hover:border-primary-500/50 transition-colors"
               >
                 <div className="relative h-48">
                   <Image 
-                    src={item.image || '/images/placeholder.jpg'} 
+                    src={item.image} 
                     alt={item.title}
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-3 left-3 px-2 py-1 bg-primary-500 text-white text-xs font-medium rounded-full">
-                    {item.type === 'package' ? 'Package' : 'Activity'}
+                  <div className="absolute top-3 left-3 bg-primary-500 text-white text-xs px-2 py-1 rounded capitalize">
+                    {item.type}
                   </div>
-                  <div className="absolute top-3 right-3 px-2 py-1 bg-dark-800/80 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                    {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
-                  </div>
+                  {item.discountPrice && item.discountPrice < item.price && (
+                    <div className="absolute top-3 right-3 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                      Save ${item.price - item.discountPrice}
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold mb-1">{item.title}</h3>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <div className="flex items-center">
+                      <Star size={16} className="text-yellow-500 fill-yellow-500" />
+                      <span className="ml-1">{item.rating}</span>
+                    </div>
+                  </div>
+                  
                   <p className="text-white/70 text-sm mb-3 line-clamp-2">{item.description}</p>
                   
-                  <div className="flex items-center gap-3 text-xs text-white/70 mb-3">
-                    <div className="flex items-center">
-                      <MapPin size={12} className="mr-1" />
+                  <div className="flex flex-wrap gap-y-2">
+                    <div className="flex items-center text-xs text-white/60 w-1/2">
+                      <MapPin size={14} className="mr-1" />
                       {item.location}
                     </div>
-                    <div className="flex items-center">
-                      <Clock size={12} className="mr-1" />
+                    <div className="flex items-center text-xs text-white/60 w-1/2">
+                      <Clock size={14} className="mr-1" />
                       {item.duration}
                     </div>
                   </div>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="mt-4 flex justify-between items-center">
                     <div>
-                      <span className="text-lg font-bold">${item.discountPrice || item.price}</span>
-                      {item.discountPrice && item.discountPrice < item.price && (
-                        <span className="text-white/60 line-through ml-2 text-sm">${item.price}</span>
+                      {item.discountPrice && item.discountPrice < item.price ? (
+                        <div>
+                          <span className="text-lg font-bold">${item.discountPrice}</span>
+                          <span className="text-white/50 line-through ml-2">${item.price}</span>
+                        </div>
+                      ) : (
+                        <span className="text-lg font-bold">${item.price}</span>
                       )}
-                      <span className="text-white/60 text-sm"> / person</span>
                     </div>
-                    <div className="flex items-center">
-                      <Star size={14} className="text-yellow-500" />
-                      <span className="ml-1 text-sm">{item.rating}</span>
-                    </div>
+                    <span className="text-primary-500 text-sm">View Details</span>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
         ) : (
-          <div className="bento-card text-center py-12">
-            <h2 className="text-xl font-semibold mb-2">No results found</h2>
+          <div className="bento-card p-8 text-center">
+            <h2 className="text-2xl font-bold mb-2">No Results Found</h2>
             <p className="text-white/70 mb-6">Try adjusting your search criteria or filters</p>
-            <button 
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSearchType('all');
+                setSelectedCategories([]);
+                setSelectedDurations([]);
+                setPriceRange([0, 2000]);
+              }}
               className="btn-primary"
-              onClick={clearFilters}
             >
-              Clear All Filters
+              Reset Search
             </button>
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+// Main component that wraps SearchContent with Suspense
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="pt-24 pb-16 bg-dark-900 min-h-screen">
+        <div className="container-custom flex justify-center items-center" style={{ minHeight: '50vh' }}>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }
