@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth, UserButton } from '@clerk/nextjs';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -19,29 +20,11 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { isLoaded, userId, isSignedIn } = useAuth();
   
-  // Check authentication status
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/me');
-        if (response.ok) {
-          const userData = await response.json();
-          setIsAuthenticated(true);
-          setUser(userData.user);
-        }
-      } catch (error) {
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    };
-    
-    checkAuth();
-  }, [pathname]);
+  // Authentication is now handled by Clerk
 
   // Check screen size on mount and resize
   useEffect(() => {
@@ -110,32 +93,21 @@ export default function Header() {
           </div>
 
           {/* Auth Section - Top Right */}
-          <div className="hidden md:flex items-center">
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
+            {isLoaded && isSignedIn ? (
+              <>
                 <Link 
                   href="/dashboard" 
                   className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-2"
                 >
                   <User className="h-4 w-4" />
-                  <span>{user?.firstName || 'Dashboard'}</span>
+                  <span>Dashboard</span>
                 </Link>
-                <button 
-                  onClick={async () => {
-                    await fetch('/api/auth/logout', { method: 'POST' });
-                    setIsAuthenticated(false);
-                    setUser(null);
-                    router.push('/');
-                  }}
-                  className="text-white hover:text-red-400 transition-colors flex items-center space-x-2"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>Logout</span>
-                </button>
-              </div>
+                <UserButton afterSignOutUrl="/" />
+              </>
             ) : (
               <Link 
-                href="/auth/login" 
+                href="/sign-in" 
                 className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mr-4"
               >
                 Login
@@ -177,7 +149,7 @@ export default function Header() {
               ))}
               
               {/* Mobile Auth Section */}
-              {isAuthenticated ? (
+              {isLoaded && isSignedIn ? (
                 <div className="flex flex-col space-y-2 mt-3">
                   <Link 
                     href="/dashboard" 
@@ -185,25 +157,15 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <User className="h-4 w-4" />
-                    <span>{user?.firstName || 'Dashboard'}</span>
+                    <span>Dashboard</span>
                   </Link>
-                  <button 
-                    onClick={async () => {
-                      await fetch('/api/auth/logout', { method: 'POST' });
-                      setIsAuthenticated(false);
-                      setUser(null);
-                      setMobileMenuOpen(false);
-                      router.push('/');
-                    }}
-                    className="text-white hover:text-red-400 transition-colors flex items-center space-x-2 py-2 px-3 rounded-md hover:bg-dark-700/50 text-left"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </button>
+                  <div className="py-2 px-3">
+                    <UserButton afterSignOutUrl="/" />
+                  </div>
                 </div>
               ) : (
                 <Link 
-                  href="/auth/login" 
+                  href="/sign-in" 
                   className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mt-3 text-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
