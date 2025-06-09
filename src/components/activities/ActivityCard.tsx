@@ -1,8 +1,7 @@
-'use client';
-
+'use client'
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Star, Clock, Plus, ShoppingCart } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import BaliImage from '@/components/ui/BaliImage';
 
 interface ActivityProps {
@@ -46,12 +45,13 @@ export default function ActivityCard({ activity }: ActivityProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Activity Image */}
-      <div className="relative h-48 sm:h-56 w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden">
         <BaliImage
           src={activity.image}
           alt={activity.title}
           fallbackText={activity.title}
           category={activity.category}
+          aspectRatio="4:3"
           className="transition-transform duration-500 group-hover:scale-110"
           priority={false}
         />

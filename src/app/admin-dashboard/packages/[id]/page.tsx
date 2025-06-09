@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Edit, Calendar, Users, MapPin, Tag } from 'lucide-react';
@@ -12,12 +12,15 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
   const [packageData, setPackageData] = useState<Package | null>(null);
 
   useEffect(() => {
-    const data = getPackage(params.id);
-    if (!data) {
-      router.push('/admin-dashboard/packages');
-      return;
-    }
-    setPackageData(data);
+    const fetchPackage = async () => {
+      const data = await getPackage(params.id);
+      if (!data) {
+        router.push('/admin-dashboard/packages');
+        return;
+      }
+      setPackageData(data);
+    };
+    fetchPackage();
   }, [params.id, getPackage, router]);
 
   if (!packageData) {
@@ -75,7 +78,7 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
           </div>
 
           {/* Highlights */}
-          {packageData.highlights.length > 0 && (
+          {packageData.highlights && packageData.highlights.length > 0 && (
             <div className="bento-card p-6 space-y-4">
               <h2 className="text-xl font-semibold">Highlights</h2>
               <ul className="space-y-2">
@@ -142,7 +145,7 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
                     <div className="space-y-4">
                       <p className="text-white/80">{day.description}</p>
 
-                      {day.activities.length > 0 && (
+                      {day.activities && day.activities.length > 0 && (
                         <div>
                           <h4 className="text-sm font-medium text-white/60 mb-2">Activities</h4>
                           <ul className="space-y-1">
@@ -157,19 +160,19 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
                       )}
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {day.meals.breakfast && (
+                        {day.meals?.breakfast && (
                           <div>
                             <h4 className="text-sm font-medium text-white/60 mb-1">Breakfast</h4>
                             <p>{day.meals.breakfast}</p>
                           </div>
                         )}
-                        {day.meals.lunch && (
+                        {day.meals?.lunch && (
                           <div>
                             <h4 className="text-sm font-medium text-white/60 mb-1">Lunch</h4>
                             <p>{day.meals.lunch}</p>
                           </div>
                         )}
-                        {day.meals.dinner && (
+                        {day.meals?.dinner && (
                           <div>
                             <h4 className="text-sm font-medium text-white/60 mb-1">Dinner</h4>
                             <p>{day.meals.dinner}</p>
@@ -192,7 +195,7 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
 
           {/* What's Included/Not Included */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {packageData.included.length > 0 && (
+            {packageData.included && packageData.included.length > 0 && (
               <div className="bento-card p-6 space-y-4">
                 <h2 className="text-xl font-semibold">What's Included</h2>
                 <ul className="space-y-2">
@@ -206,7 +209,7 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
               </div>
             )}
 
-            {packageData.notIncluded.length > 0 && (
+            {packageData.notIncluded && packageData.notIncluded.length > 0 && (
               <div className="bento-card p-6 space-y-4">
                 <h2 className="text-xl font-semibold">What's Not Included</h2>
                 <ul className="space-y-2">
@@ -319,4 +322,4 @@ export default function ViewPackagePage({ params }: { params: { id: string } }) 
       </div>
     </div>
   );
-} 
+}

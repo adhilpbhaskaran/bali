@@ -1,0 +1,60 @@
+{
+  "id": "romantic-bali-honeymoon",
+  "name": "Romantic Bali Honeymoon",
+  "slug": "romantic-bali-honeymoon",
+  "description": "Experience the ultimate romantic getaway in Bali with your loved one. This carefully crafted honeymoon package includes luxury accommodations, private dining experiences, couples spa treatments, and romantic sunset excursions. Create unforgettable memories as you explore Bali's most beautiful and intimate locations together.",
+  "shortDescription": "7 days of pure romance in the island of gods",
+  "price": 899,
+  "duration": 7,
+  "location": "Ubud, Seminyak, Nusa Dua",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/honeymoon-1.jpg",
+    "/images/packages/honeymoon-2.jpg",
+    "/images/packages/honeymoon-3.jpg",
+    "/images/packages/honeymoon-4.jpg",
+    "/images/villa.jpg"
+  ],
+  "highlights": [
+    "Private villa with infinity pool",
+    "Couples spa treatment at luxury resort",
+    "Romantic candlelit dinner on the beach",
+    "Private sunset cruise",
+    "Professional photography session"
+  ],
+  "included": [
+    "7 nights luxury accommodation",
+    "Daily breakfast",
+    "Airport transfers",
+    "Couples spa treatment",
+    "Romantic dinner setup",
+    "Private tour guide"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Personal expenses",
+    "Additional meals not mentioned",
+    "Tips and gratuities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival & Welcome",
+      "description": "Arrive in Bali and transfer to your luxury villa",
+      "activities": ["Airport pickup", "Villa check-in", "Welcome drink"]
+    },
+    {
+      "day": 2,
+      "title": "Ubud Cultural Experience",
+      "description": "Explore the cultural heart of Bali",
+      "activities": ["Tegallalang Rice Terraces", "Ubud Monkey Forest", "Traditional market visit"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

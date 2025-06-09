@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
@@ -41,9 +41,17 @@ const footerLinks = [
 
 export default function Footer() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
+  // Set mounted state to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Check screen size on mount and resize
   useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
+    
     const checkScreenSize = () => {
       setIsSmallScreen(window.innerWidth < 768);
     };
@@ -56,7 +64,7 @@ export default function Footer() {
     
     // Cleanup
     return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
+  }, [mounted]);
   
   return (
     <footer className="bg-dark-800 pt-10 sm:pt-16 pb-6 sm:pb-8">
@@ -66,7 +74,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/">
               <Image
-                src="/images/logo/transparent.svg"
+                src="/images/logo/logo.svg"
                 alt="Bali Malayali"
                 width={150}
                 height={50}
@@ -78,17 +86,41 @@ export default function Footer() {
               Premium Bali experiences, curated by people who understand you. We specialize in creating unforgettable journeys through the island of gods.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
-                <Facebook size={isSmallScreen ? 18 : 20} />
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook size={isSmallScreen ? 18 : 20} aria-hidden="true" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
-                <Instagram size={isSmallScreen ? 18 : 20} />
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram size={isSmallScreen ? 18 : 20} aria-hidden="true" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
-                <Twitter size={isSmallScreen ? 18 : 20} />
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded"
+                aria-label="Follow us on Twitter"
+              >
+                <Twitter size={isSmallScreen ? 18 : 20} aria-hidden="true" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
-                <Youtube size={isSmallScreen ? 18 : 20} />
+              <a 
+                href="https://youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded"
+                aria-label="Follow us on YouTube"
+              >
+                <Youtube size={isSmallScreen ? 18 : 20} aria-hidden="true" />
               </a>
             </div>
           </div>

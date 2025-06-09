@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
 
 export default function WhatsAppButton() {
@@ -28,8 +28,11 @@ export default function WhatsAppButton() {
     // Create WhatsApp URL with pre-filled message
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
-    // Open WhatsApp in a new tab
-    window.open(whatsappUrl, '_blank');
+    // Open WhatsApp in a new tab with security measures
+    const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    if (newWindow) {
+      newWindow.opener = null; // Additional security measure
+    }
   };
 
   return (

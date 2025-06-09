@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Upload, X, Check, Info } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePackagesStore } from '@/lib/store/packages';
 import MediaGallery from '@/components/MediaGallery';
 import type { MediaItem, Package } from '@/lib/store/packages';
+import { generateSlug } from '@/lib/utils/slug';
 
 export default function EditPackagePage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -24,12 +25,14 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
     description: '',
     shortDescription: '',
     price: '',
+    taxRate: '5', // Default 5% tax rate
     duration: '',
     minParticipants: '',
     startDate: '',
     endDate: '',
     location: '',
     category: '',
+    tourType: 'FIT' as 'FIT' | 'GIT',
     status: 'draft' as Package['status'],
     included: [''],
     notIncluded: [''],
@@ -68,6 +71,7 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
       endDate: packageData.endDate || '',
       location: packageData.location || '',
       category: packageData.category || '',
+      tourType: packageData.tourType || 'FIT',
       status: packageData.status || 'draft',
       included: Array.isArray(packageData.included) && packageData.included.length > 0 
         ? packageData.included.map(item => item || '')
@@ -201,9 +205,17 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
     setIsSubmitting(true);
     
     try {
+      // Auto-assign category based on tourType
+      const autoCategory = formData.tourType === 'FIT' ? 'Bestseller' : 'Upcoming Group Trips';
+      
+      // Generate slug from package name if it has changed
+      const autoSlug = generateSlug(formData.name);
+      
       // Convert string values to appropriate types
       const updatedPackage = {
         ...formData,
+        category: autoCategory,
+        slug: autoSlug,
         price: formData.price ? Number(formData.price) : undefined,
         duration: formData.duration ? Number(formData.duration) : undefined,
         minParticipants: formData.minParticipants ? Number(formData.minParticipants) : undefined,
@@ -739,6 +751,30 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
                 </div>
 
                 <div>
+                  <label htmlFor="taxRate" className="block text-sm font-medium text-white/80 mb-1">
+                    Tax Rate (%)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      id="taxRate"
+                      name="taxRate"
+                      value={formData.taxRate}
+                      onChange={handleChange}
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      className="block w-full px-4 py-3 border border-dark-700 rounded-lg bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      placeholder="5.0"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <span className="text-white/40">%</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/60 mt-1">Default is 5%. This will be applied to all bookings for this package.</p>
+                </div>
+
+                <div>
                   <label htmlFor="duration" className="block text-sm font-medium text-white/80 mb-1">
                     Duration (days)
                   </label>
@@ -766,6 +802,25 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
                     className="block w-full px-4 py-3 border border-dark-700 rounded-lg bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder="e.g., 2"
                   />
+                </div>
+
+                <div>
+                  <label htmlFor="tourType" className="block text-sm font-medium text-white/80 mb-1">
+                    Tour Type
+                  </label>
+                  <select
+                    id="tourType"
+                    name="tourType"
+                    value={formData.tourType}
+                    onChange={handleChange}
+                    className="block w-full px-4 py-3 border border-dark-700 rounded-lg bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="FIT">FIT (Free Independent Travel)</option>
+                    <option value="GIT">GIT (Group Inclusive Tour)</option>
+                  </select>
+                  <p className="mt-1 text-xs text-white/60">
+                    FIT packages are for individual/private tours, GIT packages are for group tours
+                  </p>
                 </div>
 
                 <div>
@@ -945,4 +1000,4 @@ export default function EditPackagePage({ params }: { params: { id: string } }) 
       )}
     </div>
   );
-} 
+}

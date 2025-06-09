@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Package, 
@@ -483,7 +483,10 @@ export default function AdminPage() {
                         className="bg-dark-800 border border-dark-700 text-white rounded-lg pl-10 pr-4 py-2 w-full focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
-                    <select className="bg-dark-800 border border-dark-700 text-white rounded-lg px-4 py-2 focus:ring-primary-500 focus:border-primary-500">
+                    <select 
+                      className="bg-dark-800 border border-dark-700 text-white rounded-lg px-4 py-2 focus:ring-primary-500 focus:border-primary-500"
+                      aria-label="Filter bookings by status"
+                    >
                       <option value="all">All Statuses</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="pending">Pending</option>

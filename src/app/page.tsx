@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Search, MapPin, Calendar, Users, ChevronRight, Star } from "lucide-react";
 import BaliImage from "@/components/ui/BaliImage";
+import { PackageData } from "@/lib/utils/packageLoader";
+import { filterAndMapPackages, getSectionTitle, getSectionDescription, PackageCardProps } from '@/components/packages/PackageCardUtils';
+import { processMediaGallery } from '@/lib/utils/mediaUtils';
 
 // Components
 import HeroSearch from "@/components/home/HeroSearch";
@@ -157,7 +160,48 @@ const testimonials = [
   },
 ];
 
-export default function Home() {
+// API function to fetch packages by tour type (FIT or GIT)
+async function getPackagesByTourType(tourType: 'FIT' | 'GIT') {
+  try {
+    // Use API endpoint with tour type filter
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/packages?tourType=${tourType}`, {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${tourType} packages`);
+    }
+
+    const data = await response.json();
+    const packages = data.packages || [];
+    
+    // Process media gallery to ensure we have proper images
+    return packages.map((pkg: any) => ({
+      ...pkg,
+      mediaGallery: processMediaGallery({ mediaGallery: pkg.mediaGallery || [pkg.image] }, 'packages')
+    }));
+  } catch (error) {
+    console.error(`Error fetching ${tourType} packages:`, error);
+    // Fallback to mock data with the correct tour type
+    return featuredPackages.map(pkg => ({
+      ...pkg,
+      tourType,
+      mediaGallery: [pkg.image]
+    }));
+  }
+}
+
+export default async function Home() {
+  // Fetch best sellers (FIT packages) and upcoming group trips (GIT packages)
+  const bestSellers = await getPackagesByTourType('FIT');
+  const upcomingGroupTrips = await getPackagesByTourType('GIT');
+  
+  // Use the PackageCardProps type imported at the top of the file
+
+  // Fallback to sample data if API fetch fails
+  const bestSellersData = bestSellers.length > 0 ? bestSellers.slice(0, 4) : featuredPackages.filter((_, i) => i % 2 === 0);
+  const upcomingGroupTripsData = upcomingGroupTrips.length > 0 ? upcomingGroupTrips.slice(0, 4) : featuredPackages.filter((_, i) => i % 2 === 1);
   return (
     <div className="flex flex-col">
       {/* Hero Section with Overlay */}
@@ -195,29 +239,60 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Featured Packages */}
+      {/* Best Sellers (FIT Packages) */}
       <section className="py-10 sm:py-16 md:py-20 bg-dark-900 relative z-10">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8 sm:mb-12">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Featured Packages</h2>
-              <p className="text-sm sm:text-base text-white/70">Handpicked experiences for your perfect Bali getaway</p>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Best Sellers</h2>
+              <p className="text-sm sm:text-base text-white/70">Our most popular FIT (Free Independent Travel) packages</p>
             </div>
-            <Link href="/packages" className="btn-primary text-sm sm:text-base py-2 px-3 sm:py-2.5 sm:px-4 flex items-center gap-1 sm:gap-2">
+            <Link href="/packages?type=FIT" className="btn-primary text-sm sm:text-base py-2 px-3 sm:py-2.5 sm:px-4 flex items-center gap-1 sm:gap-2">
               View All <ChevronRight size={16} className="w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-hidden">
-            {featuredPackages.map((pkg, index) => (
-              <div 
-                key={pkg.id} 
-                className="animate-slide-right" 
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <PackageCard package={pkg} />
-              </div>
-            ))}
+            {filterAndMapPackages(bestSellersData, 'FIT').map((packageProps, index) => {
+              return (
+                <div 
+                  key={`fit-${packageProps.id}`} 
+                  className="animate-slide-right" 
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <PackageCard package={packageProps} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+      
+      {/* Upcoming Group Trips (GIT Packages) */}
+      <section className="py-10 sm:py-16 md:py-20 bg-dark-800 relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8 sm:mb-12">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Upcoming Group Trips</h2>
+              <p className="text-sm sm:text-base text-white/70">Join our GIT (Group Inclusive Tour) packages for amazing shared experiences</p>
+            </div>
+            <Link href="/packages?type=GIT" className="btn-primary text-sm sm:text-base py-2 px-3 sm:py-2.5 sm:px-4 flex items-center gap-1 sm:gap-2">
+              View All <ChevronRight size={16} className="w-4 h-4 sm:w-5 sm:h-5" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-hidden">
+            {filterAndMapPackages(upcomingGroupTripsData, 'GIT').map((packageProps, index) => {
+              return (
+                <div 
+                  key={`git-${packageProps.id}`} 
+                  className="animate-slide-right" 
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <PackageCard package={packageProps} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

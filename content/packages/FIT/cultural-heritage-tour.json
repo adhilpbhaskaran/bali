@@ -1,0 +1,52 @@
+{
+  "id": "cultural-heritage-tour",
+  "name": "Cultural Heritage Tour",
+  "slug": "cultural-heritage-tour",
+  "description": "Immerse yourself in the authentic culture of Bali with this comprehensive heritage tour. Visit ancient temples, participate in traditional ceremonies, learn local crafts, and stay with local families to truly understand the Balinese way of life. This package is perfect for culture enthusiasts and those seeking meaningful travel experiences.",
+  "shortDescription": "Deep dive into Bali's rich cultural heritage",
+  "price": 699,
+  "duration": 5,
+  "location": "Ubud, Klungkung, Karangasem",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/cultural.jpg",
+    "/images/ulundanu.jpg",
+    "/images/riceterrace.jpg"
+  ],
+  "highlights": [
+    "Ancient temple visits with local priests",
+    "Traditional craft workshops",
+    "Homestay with Balinese family",
+    "Participation in local ceremonies",
+    "Traditional dance performances"
+  ],
+  "included": [
+    "5 nights accommodation",
+    "Daily breakfast",
+    "Cultural activities",
+    "Local guide",
+    "Transportation",
+    "Temple entrance fees"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Donations at temples"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Cultural Immersion Begins",
+      "description": "Start your cultural journey in Bali",
+      "activities": ["Airport transfer", "Traditional welcome ceremony", "Village orientation"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

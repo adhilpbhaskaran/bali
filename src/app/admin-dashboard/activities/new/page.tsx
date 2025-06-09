@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import FormWrapper from '@/components/FormWrapper';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -43,7 +44,8 @@ export default function NewActivityPage() {
     includedItems: [''],
     excludedItems: [''],
     highlights: [''],
-    status: 'draft' as const
+    status: 'draft' as const,
+    taxRate: '5'
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [mediaGallery, setMediaGallery] = useState<MediaItem[]>([]);
@@ -462,6 +464,28 @@ export default function NewActivityPage() {
                   </div>
                   {errors.price && (
                     <p className="mt-1 text-sm text-red-500">{errors.price}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="taxRate" className="block text-sm font-medium text-white/80 mb-1">
+                    Tax Rate (%)
+                  </label>
+                  <input
+                    type="number"
+                    id="taxRate"
+                    name="taxRate"
+                    value={formData.taxRate}
+                    onChange={handleChange}
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    className={`block w-full px-4 py-3 border ${errors.taxRate ? 'border-red-500' : 'border-dark-700'} rounded-lg bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent`}
+                    placeholder="5.0"
+                  />
+                  <p className="mt-1 text-xs text-white/60">Default tax rate is 5%. Enter percentage value (e.g., 5 for 5%)</p>
+                  {errors.taxRate && (
+                    <p className="mt-1 text-sm text-red-500">{errors.taxRate}</p>
                   )}
                 </div>
 

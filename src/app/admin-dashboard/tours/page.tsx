@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+
+import React, { useState } from 'react';
 import { ArrowLeft, Calendar, Users, Clock, Filter, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { usePackagesStore } from '@/lib/store/packages';

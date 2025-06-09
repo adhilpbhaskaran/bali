@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Upload, X, Plus, Image as ImageIcon, Video } from 'lucide-react';
 import type { MediaItem } from '@/lib/store/packages';
 
@@ -133,7 +133,7 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
               <div className="flex gap-4">
                 <button
                   type="button"
-                  onClick={() => setNewItem(prev => ({ ...prev, type: 'image' }))}
+                  onClick={() => setNewItem((prev: Partial<MediaItem>) => ({ ...prev, type: 'image' }))}
                   className={`flex-1 p-4 rounded-lg border-2 ${
                     newItem.type === 'image' ? 'border-primary-500' : 'border-dark-700'
                   } flex flex-col items-center gap-2`}
@@ -143,7 +143,7 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setNewItem(prev => ({ ...prev, type: 'video' }))}
+                  onClick={() => setNewItem((prev: Partial<MediaItem>) => ({ ...prev, type: 'video' }))}
                   className={`flex-1 p-4 rounded-lg border-2 ${
                     newItem.type === 'video' ? 'border-primary-500' : 'border-dark-700'
                   } flex flex-col items-center gap-2`}
@@ -161,7 +161,7 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
                   <input
                     type="text"
                     value={newItem.title || ''}
-                    onChange={(e) => setNewItem(prev => ({ ...prev, title: e.target.value }))}
+                    onChange={(e) => setNewItem((prev: Partial<MediaItem>) => ({ ...prev, title: e.target.value }))}
                     className="block w-full px-4 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white"
                     placeholder="Enter a title"
                   />
@@ -174,7 +174,7 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
                   <input
                     type="text"
                     value={newItem.description || ''}
-                    onChange={(e) => setNewItem(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) => setNewItem((prev: Partial<MediaItem>) => ({ ...prev, description: e.target.value }))}
                     className="block w-full px-4 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white"
                     placeholder="Enter a description"
                   />
@@ -213,7 +213,7 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
                       <input
                         type="url"
                         value={newItem.url || ''}
-                        onChange={(e) => setNewItem(prev => ({ ...prev, url: e.target.value }))}
+                        onChange={(e) => setNewItem((prev: Partial<MediaItem>) => ({ ...prev, url: e.target.value }))}
                         className="block w-full px-4 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white"
                         placeholder="Enter video URL (YouTube, Vimeo, etc.)"
                         required
@@ -243,4 +243,4 @@ export default function MediaGallery({ items, onChange }: MediaGalleryProps) {
       )}
     </div>
   );
-} 
+}

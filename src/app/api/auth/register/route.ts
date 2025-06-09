@@ -3,31 +3,82 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-// Mock user database - In production, this would be a real database
-let users = [
-  {
-    id: '1',
-    email: 'user@example.com',
-    password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-    firstName: 'John',
-    lastName: 'Doe',
-    phone: '+1234567890',
-    role: 'user',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    email: 'admin@bali-malayali.com',
-    password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-    firstName: 'Admin',
-    lastName: 'User',
-    phone: '+1234567891',
-    role: 'admin',
-    createdAt: new Date().toISOString()
+// Get users from environment variables or use development defaults
+function getUsers() {
+  const users = [];
+  
+  // Load admin user from environment
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+  
+  if (adminEmail && adminPasswordHash) {
+    users.push({
+      id: '2',
+      email: adminEmail,
+      password: adminPasswordHash,
+      firstName: 'Admin',
+      lastName: 'User',
+      phone: '+1234567891',
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    });
   }
-];
+  
+  // Load regular user from environment
+  const userEmail = process.env.USER_EMAIL;
+  const userPasswordHash = process.env.USER_PASSWORD_HASH;
+  
+  if (userEmail && userPasswordHash) {
+    users.push({
+      id: '1',
+      email: userEmail,
+      password: userPasswordHash,
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '+1234567890',
+      role: 'user',
+      createdAt: new Date().toISOString()
+    });
+  }
+  
+  // Development fallback - WARNING: Only for development!
+  if (users.length === 0 && process.env.NODE_ENV === 'development') {
+    console.warn('⚠️  Using development-only default credentials. Set environment variables for production!');
+    users.push(
+      {
+        id: '1',
+        email: 'user@example.com',
+        password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '+1234567890',
+        role: 'user',
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: '2',
+        email: 'admin@bali-malayali.com',
+        password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        firstName: 'Admin',
+        lastName: 'User',
+        phone: '+1234567891',
+        role: 'admin',
+        createdAt: new Date().toISOString()
+      }
+    );
+  }
+  
+  return users;
+}
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-here';
+// Mock user database - In production, this would be a real database
+let users = getUsers();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required');
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -89,12 +140,12 @@ export async function POST(request: NextRequest) {
         email: newUser.email,
         role: newUser.role
       },
-      JWT_SECRET,
+      JWT_SECRET!,
       { expiresIn: '7d' }
     );
 
     // Set HTTP-only cookie
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     cookieStore.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

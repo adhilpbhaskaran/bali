@@ -1,0 +1,79 @@
+{
+  "id": "bali-cultural-immersion",
+  "name": "Bali Cultural Immersion Group Tour",
+  "slug": "bali-cultural-immersion",
+  "description": "Join fellow travelers on this comprehensive cultural journey through Bali. Experience authentic traditions, visit ancient temples, and connect with local communities in this carefully crafted group tour.",
+  "shortDescription": "Comprehensive cultural group tour with authentic traditions and temple visits",
+  "price": 850,
+  "duration": 5,
+  "location": "Ubud, Candidasa & Sanur, Bali",
+  "category": "Upcoming Group Trips",
+  "tourType": "GIT",
+  "status": "PUBLISHED",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/cultural-tour-1.jpg",
+    "/images/packages/cultural-tour-2.jpg",
+    "/images/packages/cultural-tour-3.jpg"
+  ],
+  "highlights": [
+    "Visit 5 ancient temples with guided explanations",
+    "Traditional cooking class with local family",
+    "Batik and wood carving workshops",
+    "Sunrise trek to Mount Batur",
+    "Traditional dance performance"
+  ],
+  "included": [
+    "5 nights accommodation in traditional guesthouses",
+    "All meals as per itinerary",
+    "Shared transportation in air-conditioned vehicle",
+    "English-speaking guide",
+    "All entrance fees and activities",
+    "Airport transfers (shared)"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Personal expenses",
+    "Tips for guide and driver",
+    "Single room supplement"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival and Group Introduction",
+      "description": "Meet your fellow travelers and guide. Introduction to Balinese culture and traditions.",
+      "activities": [
+        "Airport pickup (shared transfer)",
+        "Group check-in at traditional guesthouse",
+        "Welcome dinner and cultural orientation",
+        "Traditional blessing ceremony"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Temple Trail and Art Villages",
+      "description": "Explore ancient temples and visit traditional art villages with the group.",
+      "activities": [
+        "Visit Tirta Empul holy water temple",
+        "Explore Mas wood carving village",
+        "Lunch at local warung",
+        "Batik workshop in Tohpati village"
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Mount Batur Sunrise Trek",
+      "description": "Early morning group trek to witness the spectacular sunrise from Mount Batur.",
+      "activities": [
+        "2:00 AM departure for Mount Batur",
+        "Guided sunrise trek with group",
+        "Breakfast on the summit",
+        "Visit traditional coffee plantation"
+      ]
+    }
+  ],
+  "createdAt": "2024-01-15T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

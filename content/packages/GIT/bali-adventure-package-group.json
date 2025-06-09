@@ -1,0 +1,50 @@
+{
+  "id": "bali-adventure-package-group",
+  "name": "Bali Adventure Package - Group Tour",
+  "slug": "bali-adventure-package-group",
+  "description": "Join a group of adventure enthusiasts for an action-packed tour of Bali. Fixed departure dates ensure you'll meet like-minded travelers while experiencing the best adventure activities Bali has to offer.",
+  "shortDescription": "5 days of adventure with fellow thrill-seekers - Fixed dates",
+  "price": 649,
+  "duration": 5,
+  "location": "Ubud, Kintamani, Amed",
+  "category": "Upcoming Group Trips",
+  "tourType": "GIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/waterfall.jpg",
+    "/images/dirtbike.jpg",
+    "/images/surfing.jpg"
+  ],
+  "highlights": [
+    "Group volcano trekking",
+    "Team white water rafting",
+    "Group ATV adventures",
+    "Shared camping experience",
+    "Adventure photography"
+  ],
+  "included": [
+    "5 nights accommodation",
+    "Daily breakfast",
+    "All adventure activities",
+    "Professional guide",
+    "Safety equipment"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Adventure Group Assembly",
+      "description": "Meet your adventure team and gear up",
+      "activities": ["Group meeting", "Equipment briefing", "Team building"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

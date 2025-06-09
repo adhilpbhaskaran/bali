@@ -1,0 +1,65 @@
+{
+  "id": "luxury-bali-retreat",
+  "name": "Luxury Bali Retreat",
+  "slug": "luxury-bali-retreat",
+  "description": "Experience the ultimate luxury in Bali with this exclusive private retreat. Enjoy personalized service, premium accommodations, and curated experiences tailored to your preferences.",
+  "shortDescription": "Ultimate luxury private retreat with personalized service and premium experiences",
+  "price": 2500,
+  "duration": 7,
+  "location": "Ubud & Seminyak, Bali",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "PUBLISHED",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/luxury-retreat-1.jpg",
+    "/images/packages/luxury-retreat-2.jpg",
+    "/images/packages/luxury-retreat-3.jpg"
+  ],
+  "highlights": [
+    "Private villa accommodation with infinity pool",
+    "Personal butler and chef service",
+    "Helicopter transfer to remote locations",
+    "Exclusive spa treatments",
+    "Private yoga sessions with master instructor"
+  ],
+  "included": [
+    "7 nights luxury villa accommodation",
+    "All meals prepared by private chef",
+    "Private transportation",
+    "Personal guide and butler",
+    "All activities and entrance fees",
+    "Airport transfers"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Personal shopping expenses",
+    "Alcoholic beverages (available on request)"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival and Welcome",
+      "description": "Private airport pickup and transfer to your luxury villa. Welcome ceremony and orientation.",
+      "activities": [
+        "Private airport transfer",
+        "Villa check-in and orientation",
+        "Welcome dinner with traditional Balinese cuisine"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Cultural Immersion",
+      "description": "Private guided tour of Ubud's cultural highlights with exclusive access.",
+      "activities": [
+        "Private temple visit with blessing ceremony",
+        "Traditional art workshop with master craftsman",
+        "Exclusive lunch at hidden local restaurant"
+      ]
+    }
+  ],
+  "createdAt": "2024-01-15T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

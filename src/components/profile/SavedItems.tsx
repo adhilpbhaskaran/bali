@@ -12,6 +12,7 @@ import {
   Trash,
   ShoppingCart
 } from 'lucide-react';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 
 // Sample saved items data
 const savedPackages = [
@@ -166,11 +167,12 @@ export default function SavedItems() {
                         <h3 className="text-xl font-semibold mb-1">{pkg.title}</h3>
                       </Link>
                       <button 
-                        className="text-white/60 hover:text-red-500 transition-colors"
+                        type="button"
+                        className="text-white/60 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded p-1"
                         onClick={() => removePackage(pkg.id)}
-                        title="Remove from saved items"
+                        aria-label={`Remove ${pkg.title} from saved packages`}
                       >
-                        <Trash size={18} />
+                        <Trash size={18} aria-hidden="true" />
                       </button>
                     </div>
                     
@@ -190,7 +192,12 @@ export default function SavedItems() {
                       </div>
                     </div>
                     
-                    <p className="text-white/80 text-sm mb-4 line-clamp-2">{pkg.description}</p>
+                    <div className="text-white/80 text-sm mb-4 line-clamp-2">
+                      <SafeContentRenderer 
+                        content={pkg.description} 
+                        className="text-white/80 text-sm"
+                      />
+                    </div>
                     
                     <div className="flex justify-between items-center">
                       <div>
@@ -260,11 +267,12 @@ export default function SavedItems() {
                         <h3 className="text-xl font-semibold mb-1">{activity.title}</h3>
                       </Link>
                       <button 
-                        className="text-white/60 hover:text-red-500 transition-colors"
+                        type="button"
+                        className="text-white/60 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-dark-900 rounded p-1"
                         onClick={() => removeActivity(activity.id)}
-                        title="Remove from saved items"
+                        aria-label={`Remove ${activity.title} from saved activities`}
                       >
-                        <Trash size={18} />
+                        <Trash size={18} aria-hidden="true" />
                       </button>
                     </div>
                     
@@ -284,7 +292,12 @@ export default function SavedItems() {
                       </div>
                     </div>
                     
-                    <p className="text-white/80 text-sm mb-4 line-clamp-2">{activity.description}</p>
+                    <div className="text-white/80 text-sm mb-4 line-clamp-2">
+                      <SafeContentRenderer 
+                        content={activity.description} 
+                        className="text-white/80 text-sm"
+                      />
+                    </div>
                     
                     <div className="flex justify-between items-center">
                       <div>

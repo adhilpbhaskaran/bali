@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Edit, Clock, MapPin, Tag, DollarSign } from 'lucide-react';
@@ -215,4 +215,4 @@ export default function ViewActivityPage({ params }: { params: { id: string } })
       </div>
     </div>
   );
-} 
+}

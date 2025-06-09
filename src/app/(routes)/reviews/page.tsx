@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, Quote, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 
 // Sample testimonials data
 const testimonials = [
@@ -410,7 +411,12 @@ export default function ReviewsPage() {
                     <h3 className="text-xl font-semibold mb-2">{testimonial.title}</h3>
                     <div className="relative">
                       <Quote size={24} className="absolute -left-2 -top-2 text-primary-500/20" />
-                      <p className="text-white/80 mb-4 pl-6">{testimonial.text}</p>
+                      <div className="text-white/80 mb-4 pl-6">
+                        <SafeContentRenderer 
+                          content={testimonial.text} 
+                          className="text-white/80"
+                        />
+                      </div>
                     </div>
                     
                     {testimonial.package && (

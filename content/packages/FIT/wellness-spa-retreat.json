@@ -1,0 +1,53 @@
+{
+  "id": "wellness-spa-retreat",
+  "name": "Wellness & Spa Retreat",
+  "slug": "wellness-spa-retreat",
+  "description": "Escape the stress of daily life with this comprehensive wellness retreat in Bali. Featuring daily yoga sessions, meditation classes, spa treatments, healthy cuisine, and healing therapies, this package is designed to restore your inner balance and leave you feeling refreshed and renewed.",
+  "shortDescription": "Rejuvenate your mind, body, and soul",
+  "price": 999,
+  "duration": 7,
+  "location": "Ubud, Canggu",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "trending",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/wellness.jpg",
+    "/images/activities/spa.jpg",
+    "/images/villa.jpg"
+  ],
+  "highlights": [
+    "Daily yoga and meditation sessions",
+    "Traditional Balinese spa treatments",
+    "Healthy organic meals",
+    "Healing therapy sessions",
+    "Wellness workshops",
+    "Nature walks and mindfulness activities"
+  ],
+  "included": [
+    "7 nights wellness resort stay",
+    "All healthy meals",
+    "Daily yoga classes",
+    "Spa treatments",
+    "Meditation sessions",
+    "Airport transfers"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Additional spa treatments",
+    "Personal expenses",
+    "Optional excursions"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Wellness Journey Begins",
+      "description": "Start your path to wellness and rejuvenation",
+      "activities": ["Airport transfer", "Wellness consultation", "Welcome yoga session"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

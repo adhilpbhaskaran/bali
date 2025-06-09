@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -74,7 +74,13 @@ function AdminLayoutContent({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Show loading state
+  const isActive = (path: string) => {
+    if (path === '/admin-dashboard' && pathname === '/admin-dashboard') return true;
+    if (path !== '/admin-dashboard' && pathname?.startsWith(path)) return true;
+    return false;
+  };
+
+  // Show loading state after all hooks are called
   if (loading || status === 'loading') {
     return (
       <div className="flex items-center justify-center h-screen bg-dark-900">
@@ -86,14 +92,41 @@ function AdminLayoutContent({
     );
   }
 
-  const isActive = (path: string) => {
-    if (path === '/admin-dashboard' && pathname === '/admin-dashboard') return true;
-    if (path !== '/admin-dashboard' && pathname?.startsWith(path)) return true;
-    return false;
-  };
-
   return (
     <div className="flex h-screen bg-dark-900 text-white">
+      {/* Skip Link for Admin Dashboard */}
+      <a 
+        href="#admin-main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-all duration-200"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const mainContent = document.getElementById('admin-main-content');
+            if (mainContent) {
+              mainContent.focus();
+              mainContent.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        }}
+      >
+        Skip to main content
+      </a>
+      <a 
+        href="#admin-sidebar-nav" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-40 focus:z-[9999] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 transition-all duration-200"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const sidebarNav = document.getElementById('admin-sidebar-nav');
+            if (sidebarNav) {
+              sidebarNav.focus();
+              sidebarNav.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        }}
+      >
+        Skip to sidebar navigation
+      </a>
       {/* Mobile sidebar toggle */}
       <div className="fixed top-3 left-3 z-50 lg:hidden">
         <button
@@ -124,15 +157,22 @@ function AdminLayoutContent({
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-2 px-2">
-            <ul className="space-y-1">
+          <nav 
+            id="admin-sidebar-nav"
+            className="flex-1 overflow-y-auto py-2 px-2" 
+            role="navigation" 
+            aria-label="Admin dashboard navigation"
+            tabIndex={-1}
+          >
+            <ul className="space-y-1" role="list">
               {navigation.map((item) => (
-                <li key={item.href}>
+                <li key={item.href} role="listitem">
                   <Link
                     href={item.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${pathname === item.href ? 'bg-primary-600/20 text-primary-500' : 'text-white/70 hover:bg-dark-800 hover:text-white'}`}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${isActive(item.href) ? 'bg-primary-600/20 text-primary-500' : 'text-white/70 hover:bg-dark-800 hover:text-white'}`}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className="h-4 w-4" aria-hidden="true" />
                     <span className="text-sm">{item.name}</span>
                   </Link>
                 </li>
@@ -195,7 +235,13 @@ function AdminLayoutContent({
         </header>
 
         {/* Page content */}
-        <div className="p-4">
+        <div 
+          id="admin-main-content" 
+          className="p-4" 
+          tabIndex={-1}
+          role="main"
+          aria-label="Admin dashboard main content"
+        >
           {children}
         </div>
       </main>

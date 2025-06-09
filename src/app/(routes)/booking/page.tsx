@@ -1,10 +1,11 @@
-'use client';
+'use client'
 
-import { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import BookingForm from '@/components/booking/BookingForm';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 
 // Sample data for packages and activities
 const packages = [
@@ -211,7 +212,12 @@ function BookingContent() {
                 </div>
               </div>
               
-              <p className="text-white/80 mb-6">{item.description}</p>
+              <div className="text-white/80 mb-6">
+                <SafeContentRenderer 
+                  content={item.description} 
+                  className="text-white/80"
+                />
+              </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div className="flex items-center gap-2">

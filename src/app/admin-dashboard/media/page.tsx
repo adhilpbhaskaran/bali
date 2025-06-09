@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Image as ImageIcon, 
@@ -182,11 +182,13 @@ export default function MediaLibraryPage() {
 
   // Simulated data fetch
   useEffect(() => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setMediaItems(SAMPLE_MEDIA);
       setFolders(SAMPLE_FOLDERS);
       setIsLoading(false);
     }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   // Filter media by search term and folder
@@ -554,15 +556,32 @@ export default function MediaLibraryPage() {
 
       {/* New Folder Modal */}
       {showNewFolderModal && (
-        <div className="fixed inset-0 bg-dark-900/80 flex items-center justify-center z-50">
+        <div 
+          className="fixed inset-0 bg-dark-900/80 flex items-center justify-center z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="new-folder-title"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowNewFolderModal(false);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setShowNewFolderModal(false);
+            }
+          }}
+        >
           <div className="bg-dark-800 rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Create New Folder</h3>
+              <h3 id="new-folder-title" className="text-lg font-semibold">Create New Folder</h3>
               <button 
+                type="button"
                 onClick={() => setShowNewFolderModal(false)}
-                className="p-1 rounded-full hover:bg-dark-700 text-white/60 hover:text-white transition-colors"
+                className="p-1 rounded-full hover:bg-dark-700 text-white/60 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-dark-800"
+                aria-label="Close dialog"
               >
-                <X size={20} />
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
             <div className="mb-4">
@@ -576,23 +595,39 @@ export default function MediaLibraryPage() {
                 onChange={(e) => setNewFolderName(e.target.value)}
                 className="block w-full px-4 py-3 border border-dark-700 rounded-lg bg-dark-900 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="e.g., Blog Images"
+                required
+                aria-required="true"
+                aria-describedby="folder-name-help"
               />
+              <p id="folder-name-help" className="text-xs text-white/60 mt-1">
+                Enter a descriptive name for your new folder
+              </p>
             </div>
             <div className="flex justify-end gap-2">
               <button
+                type="button"
                 onClick={() => setShowNewFolderModal(false)}
-                className="px-4 py-2 border border-dark-700 rounded-lg text-white hover:bg-dark-700 transition-colors"
+                className="px-4 py-2 border border-dark-700 rounded-lg text-white hover:bg-dark-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-dark-800"
+                aria-label="Cancel folder creation"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={handleCreateFolder}
                 disabled={!newFolderName.trim()}
-                className="px-4 py-2 bg-primary-600 rounded-lg text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-primary-600 rounded-lg text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800"
+                aria-label="Create new folder"
+                aria-describedby={!newFolderName.trim() ? "create-button-disabled" : undefined}
               >
-                <Check size={16} />
+                <Check size={16} aria-hidden="true" />
                 <span>Create Folder</span>
               </button>
+              {!newFolderName.trim() && (
+                <span id="create-button-disabled" className="sr-only">
+                  Button disabled: Please enter a folder name
+                </span>
+              )}
             </div>
           </div>
         </div>

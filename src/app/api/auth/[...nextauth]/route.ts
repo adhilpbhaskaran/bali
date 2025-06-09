@@ -28,16 +28,61 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        // Authentication logic here
-        if (credentials?.email === 'admin@balimalayali.com' && 
-            credentials?.password === 'admin123') {
-          return {
-            id: '1',
-            name: 'Admin',
-            email: 'admin@balimalayali.com',
-            role: 'admin'
-          };
+        // Get credentials from environment variables
+        const adminEmail = process.env.ADMIN_EMAIL || 'admin@balimalayali.com';
+        const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+        const userEmail = process.env.USER_EMAIL || 'user@example.com';
+        const userPasswordHash = process.env.USER_PASSWORD_HASH;
+        
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
+        
+        // Import bcrypt for password verification
+        const bcrypt = require('bcryptjs');
+        
+        try {
+          // Check admin credentials
+          if (credentials.email === adminEmail && adminPasswordHash) {
+            const isValidAdmin = await bcrypt.compare(credentials.password, adminPasswordHash);
+            if (isValidAdmin) {
+              return {
+                id: '1',
+                name: 'Admin',
+                email: adminEmail,
+                role: 'admin'
+              };
+            }
+          }
+          
+          // Check user credentials
+          if (credentials.email === userEmail && userPasswordHash) {
+            const isValidUser = await bcrypt.compare(credentials.password, userPasswordHash);
+            if (isValidUser) {
+              return {
+                id: '2',
+                name: 'User',
+                email: userEmail,
+                role: 'user'
+              };
+            }
+          }
+          
+          // Development fallback (only in development mode)
+          if (process.env.NODE_ENV === 'development' && 
+              credentials.email === adminEmail && 
+              adminPasswordHash && await bcrypt.compare(credentials.password, adminPasswordHash)) {
+            return {
+              id: '1',
+              name: 'Admin (Dev)',
+              email: adminEmail,
+              role: 'admin'
+            };
+          }
+        } catch (error) {
+          console.error('Authentication error:', error);
+        }
+        
         return null;
       }
     })
@@ -61,7 +106,12 @@ export const authOptions: NextAuthOptions = {
       return session;
     }
   },
-  secret: process.env.NEXTAUTH_SECRET || 'your-secret-key-for-development-only',
+  secret: process.env.NEXTAUTH_SECRET || (() => {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('NEXTAUTH_SECRET environment variable is required in production');
+    }
+    return 'development-only-secret-change-in-production';
+  })(),
 };
 
 const handler = NextAuth(authOptions);

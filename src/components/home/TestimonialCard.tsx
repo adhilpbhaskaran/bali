@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import BaliImage from '@/components/ui/BaliImage';
 

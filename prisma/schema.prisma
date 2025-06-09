@@ -1,0 +1,420 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  EDITOR
+}
+
+// Media model for file management
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int
+  url         String
+  thumbnail   String?
+  alt         String?
+  title       String?
+  description String?
+  seoTitle    String?
+  seoDescription String?
+  folder      String?
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  packageMedia PackageMedia[]
+  activityMedia ActivityMedia[]
+  testimonialMedia TestimonialMedia[]
+
+  @@map("media")
+}
+
+// Package model with multilingual support
+model Package {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  tourType        TourType    @default(FIT)
+  status          ContentStatus @default(DRAFT)
+  published       Boolean     @default(false)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  unpublishAt     DateTime?
+  featured        Boolean     @default(false)
+  trending        Boolean     @default(false)
+  bestSeller      Boolean     @default(false)
+  
+  // Pricing and capacity
+  basePrice       Float
+  discountPrice   Float?
+  currency        String      @default("USD")
+  minParticipants Int         @default(1)
+  maxParticipants Int?
+  currentBookings Int         @default(0)
+  
+  // Dates and duration
+  duration        Int         // in days
+  startDate       DateTime?
+  endDate         DateTime?
+  isFlexibleDates Boolean     @default(true)
+  
+  // Location and category
+  location        String
+  category        String
+  
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  ogImage         String?
+  
+  // Versioning
+  version         Int         @default(1)
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  translations    PackageTranslation[]
+  media           PackageMedia[]
+  itinerary       ItineraryDay[]
+  bookings        Booking[]
+  testimonials    Testimonial[]
+  versions        PackageVersion[]
+
+  @@map("packages")
+}
+
+model PackageTranslation {
+  id               String   @id @default(cuid())
+  packageId        String
+  language         Language @default(EN)
+  name             String
+  description      String   @db.Text
+  shortDescription String?
+  highlights       String[]
+  included         String[]
+  notIncluded      String[]
+  
+  package          Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  
+  @@unique([packageId, language])
+  @@map("package_translations")
+}
+
+model PackageMedia {
+  id        String @id @default(cuid())
+  packageId String
+  mediaId   String
+  order     Int    @default(0)
+  isPrimary Boolean @default(false)
+  
+  package   Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  
+  @@unique([packageId, mediaId])
+  @@map("package_media")
+}
+
+model ItineraryDay {
+  id            String @id @default(cuid())
+  packageId     String
+  day           Int
+  title         String
+  description   String @db.Text
+  activities    String[]
+  breakfast     String?
+  lunch         String?
+  dinner        String?
+  accommodation String?
+  
+  package       Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  
+  @@unique([packageId, day])
+  @@map("itinerary_days")
+}
+
+// Activity model with multilingual support
+model Activity {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  status          ContentStatus @default(DRAFT)
+  published       Boolean       @default(false)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  unpublishAt     DateTime?
+  featured        Boolean       @default(false)
+  
+  // Pricing
+  basePrice       Float
+  discountPrice   Float?
+  currency        String        @default("USD")
+  
+  // Details
+  duration        String
+  location        String
+  category        String
+  
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  ogImage         String?
+  
+  // Versioning
+  version         Int           @default(1)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  translations    ActivityTranslation[]
+  media           ActivityMedia[]
+  bookings        Booking[]
+  testimonials    Testimonial[]
+  versions        ActivityVersion[]
+
+  @@map("activities")
+}
+
+model ActivityTranslation {
+  id               String   @id @default(cuid())
+  activityId       String
+  language         Language @default(EN)
+  name             String
+  description      String   @db.Text
+  shortDescription String?
+  highlights       String[]
+  includedItems    String[]
+  excludedItems    String[]
+  
+  activity         Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  
+  @@unique([activityId, language])
+  @@map("activity_translations")
+}
+
+model ActivityMedia {
+  id         String @id @default(cuid())
+  activityId String
+  mediaId    String
+  order      Int    @default(0)
+  isPrimary  Boolean @default(false)
+  
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  media      Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  
+  @@unique([activityId, mediaId])
+  @@map("activity_media")
+}
+
+// Testimonial model with multilingual support
+model Testimonial {
+  id          String        @id @default(cuid())
+  name        String
+  email       String?
+  role        String?
+  location    String?
+  rating      Int           @default(5)
+  status      ContentStatus @default(PENDING)
+  published   Boolean       @default(false)
+  publishedAt DateTime?
+  featured    Boolean       @default(false)
+  
+  // Relations
+  packageId   String?
+  activityId  String?
+  
+  // Versioning
+  version     Int           @default(1)
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  package      Package?               @relation(fields: [packageId], references: [id])
+  activity     Activity?              @relation(fields: [activityId], references: [id])
+  translations TestimonialTranslation[]
+  media        TestimonialMedia[]
+  versions     TestimonialVersion[]
+
+  @@map("testimonials")
+}
+
+model TestimonialTranslation {
+  id            String      @id @default(cuid())
+  testimonialId String
+  language      Language    @default(EN)
+  content       String      @db.Text
+  
+  testimonial   Testimonial @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  
+  @@unique([testimonialId, language])
+  @@map("testimonial_translations")
+}
+
+model TestimonialMedia {
+  id            String @id @default(cuid())
+  testimonialId String
+  mediaId       String
+  order         Int    @default(0)
+  
+  testimonial   Testimonial @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  media         Media       @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  
+  @@unique([testimonialId, mediaId])
+  @@map("testimonial_media")
+}
+
+// Booking model
+model Booking {
+  id          String      @id @default(cuid())
+  bookingRef  String      @unique
+  status      BookingStatus @default(PENDING)
+  
+  // Customer details
+  customerName  String
+  customerEmail String
+  customerPhone String?
+  
+  // Booking details
+  packageId   String?
+  activityId  String?
+  startDate   DateTime
+  endDate     DateTime?
+  guests      Int         @default(1)
+  totalAmount Float
+  currency    String      @default("USD")
+  
+  // Payment
+  paymentStatus PaymentStatus @default(PENDING)
+  paidAmount    Float         @default(0)
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  package     Package?    @relation(fields: [packageId], references: [id])
+  activity    Activity?   @relation(fields: [activityId], references: [id])
+
+  @@map("bookings")
+}
+
+// Version control models
+model PackageVersion {
+  id        String   @id @default(cuid())
+  packageId String
+  version   Int
+  data      Json
+  createdAt DateTime @default(now())
+  
+  package   Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  
+  @@unique([packageId, version])
+  @@map("package_versions")
+}
+
+model ActivityVersion {
+  id         String   @id @default(cuid())
+  activityId String
+  version    Int
+  data       Json
+  createdAt  DateTime @default(now())
+  
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  
+  @@unique([activityId, version])
+  @@map("activity_versions")
+}
+
+model TestimonialVersion {
+  id            String      @id @default(cuid())
+  testimonialId String
+  version       Int
+  data          Json
+  createdAt     DateTime    @default(now())
+  
+  testimonial   Testimonial @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  
+  @@unique([testimonialId, version])
+  @@map("testimonial_versions")
+}
+
+// Enums
+enum Language {
+  EN
+  HI
+  ML
+}
+
+enum TourType {
+  FIT // Free Independent Traveler
+  GIT // Group Inclusive Tour
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+  PENDING
+  REJECTED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  REFUNDED
+  FAILED
+}
+
+model CMSSettings {
+  id                        Int      @id @default(autoincrement())
+  defaultLanguage          Language @default(EN)
+  enabledLanguages         Language[]
+  autoSave                 Boolean  @default(true)
+  autoSaveInterval         Int      @default(30) // in seconds
+  enableVersioning         Boolean  @default(true)
+  maxVersions              Int      @default(10)
+  enableScheduledPublishing Boolean @default(true)
+  enablePreviewMode        Boolean  @default(true)
+  siteUrl                  String   @default("http://localhost:3000")
+  mediaUploadPath          String   @default("/uploads")
+  maxFileSize              Int      @default(10) // in MB
+  allowedFileTypes         String[]
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@map("cms_settings")
+}

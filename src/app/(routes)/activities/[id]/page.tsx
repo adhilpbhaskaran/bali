@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import ReviewSubmissionForm from '@/components/reviews/ReviewSubmissionForm';
+import GoogleReviewsSync from '@/components/reviews/GoogleReviewsSync';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 import { 
   Calendar, 
   Clock, 
@@ -26,6 +29,21 @@ const activityData = {
   discountPrice: 55,
   rating: 4.8,
   reviews: 156,
+  reviewsList: [
+    {
+      name: "Sarah Johnson",
+      rating: 5,
+      date: "2023-12-15",
+      comment: "Absolutely incredible experience! The trek was challenging but our guide was patient and encouraging. The sunrise view was breathtaking and worth every step. Highly recommend!",
+      images: ["/images/reviews/review1-1.jpg", "/images/reviews/review1-2.jpg"]
+    },
+    {
+      name: "Michael Chen",
+      rating: 4,
+      date: "2023-11-22",
+      comment: "Great trek with amazing views. Our guide was knowledgeable about the volcano and surrounding area. The only downside was that it was quite crowded at the summit."
+    }
+  ],
   duration: "6 hours",
   category: "adventure",
   location: "Kintamani, Bali, Indonesia",
@@ -141,44 +159,78 @@ export default function ActivityDetail({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="pt-24 pb-16 bg-dark-900 min-h-screen">
-      <div className="container-custom">
+    <div className="min-h-screen bg-dark-900">
+      {/* Hero Section */}
+      <div className="relative h-screen overflow-hidden">
+        <Image 
+          src={activityData.images[0] || '/images/placeholder.jpg'} 
+          alt={activityData.title}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        
         {/* Breadcrumb */}
-        <div className="text-sm text-white/60 mb-6">
-          <Link href="/" className="hover:text-primary-500">Home</Link> {' / '}
-          <Link href="/activities" className="hover:text-primary-500">Activities</Link> {' / '}
-          <span className="text-white">{activityData.title}</span>
+        <div className="absolute top-6 left-6 z-10">
+          <nav className="flex items-center space-x-2 text-sm">
+            <Link href="/" className="text-white/70 hover:text-white transition-colors">
+              Home
+            </Link>
+            <span className="text-white/50">/</span>
+            <Link href="/activities" className="text-white/70 hover:text-white transition-colors">
+              Activities
+            </Link>
+            <span className="text-white/50">/</span>
+            <span className="text-white">{activityData.title}</span>
+          </nav>
         </div>
 
-        {/* Activity Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">{activityData.title}</h1>
-            <div className="flex items-center gap-4 text-sm text-white/70">
-              <div className="flex items-center">
-                <MapPin size={14} className="mr-1" />
-                {activityData.location}
+        {/* Activity Info Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="bg-primary-600 text-white text-sm px-4 py-2 rounded-full font-medium">
+                Activity
+              </span>
+              <span className="bg-blue-600 text-white text-sm px-4 py-2 rounded-full font-medium">
+                Adventure
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">{activityData.title}</h1>
+            <p className="text-xl text-white/90 mb-8 max-w-4xl leading-relaxed">{activityData.description}</p>
+            
+            <div className="flex flex-wrap items-center gap-8 text-white/90">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/10 rounded-full">
+                  <MapPin size={20} />
+                </div>
+                <span className="text-lg font-medium">{activityData.location}</span>
               </div>
-              <div className="flex items-center">
-                <Clock size={14} className="mr-1" />
-                {activityData.duration}
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/10 rounded-full">
+                  <Clock size={20} />
+                </div>
+                <span className="text-lg font-medium">{activityData.duration}</span>
               </div>
-              <div className="flex items-center">
-                <Star size={14} className="mr-1 text-yellow-500" />
-                <span className="text-white">{activityData.rating}</span>
-                <span className="ml-1">({activityData.reviews} reviews)</span>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/10 rounded-full">
+                  <Star className="text-yellow-500 fill-yellow-500" size={20} />
+                </div>
+                <span className="text-lg font-medium">{activityData.rating} ({activityData.reviews} reviews)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/10 rounded-full">
+                  <Users size={20} />
+                </div>
+                <span className="text-lg font-medium">Max {activityData.maxGuests} people</span>
               </div>
             </div>
           </div>
-          <div className="flex gap-3 mt-4 md:mt-0">
-            <button className="p-2 rounded-full bg-dark-800 hover:bg-dark-700" title="Save to wishlist">
-              <Heart size={20} className="text-white/70" />
-            </button>
-            <button className="p-2 rounded-full bg-dark-800 hover:bg-dark-700" title="Share">
-              <Share2 size={20} className="text-white/70" />
-            </button>
-          </div>
         </div>
+      </div>
+
+      <div className="container-custom py-16">
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -219,6 +271,7 @@ export default function ActivityDetail({ params }: { params: { id: string } }) {
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
                   <TabsTrigger value="inclusions">Inclusions</TabsTrigger>
+                  <TabsTrigger value="reviews">Reviews</TabsTrigger>
                   <TabsTrigger value="faqs">FAQs</TabsTrigger>
                 </TabsList>
 
@@ -283,6 +336,86 @@ export default function ActivityDetail({ params }: { params: { id: string } }) {
                   </div>
                 </TabsContent>
 
+                {/* Reviews Tab */}
+                <TabsContent value="reviews" className="space-y-6">
+                  <div className="bento-card">
+                    <h2 className="text-xl font-semibold mb-4">Customer Reviews</h2>
+                    
+                    {/* Google Reviews Sync */}
+                    <div className="mb-8">
+                      <GoogleReviewsSync 
+                        itemType="activity"
+                        itemId={activityData.id.toString()}
+                        itemName={activityData.title}
+                        autoSync={true}
+                        syncInterval={300000} // 5 minutes
+                        className="mb-6"
+                      />
+                    </div>
+                    
+                    {/* Existing Reviews Display */}
+                    {activityData.reviewsList && activityData.reviewsList.length > 0 ? (
+                      <div className="space-y-4 mb-8">
+                        {activityData.reviewsList.map((review, index) => (
+                          <div key={index} className="border border-dark-700 rounded-lg p-6">
+                            <div className="flex items-start justify-between mb-3">
+                              <div>
+                                <h4 className="font-semibold">{review.name}</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <div className="flex">
+                                    {[...Array(5)].map((_, i) => (
+                                      <Star
+                                        key={i}
+                                        size={16}
+                                        className={i < review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-400'}
+                                      />
+                                    ))}
+                                  </div>
+                                  <span className="text-sm text-white/60">{review.date}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-white/80">
+                              <SafeContentRenderer 
+                                content={review.comment} 
+                                className="text-white/80"
+                              />
+                            </div>
+                            {review.images && review.images.length > 0 && (
+                              <div className="flex gap-2 mt-4 overflow-x-auto">
+                                {review.images.map((image, imgIndex) => (
+                                  <div key={imgIndex} className="relative w-20 h-20 flex-shrink-0">
+                                    <Image 
+                                      src={image} 
+                                      alt={`Review image ${imgIndex + 1}`}
+                                      fill
+                                      className="object-cover rounded-md"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-white/60 mb-8">
+                        <p>No reviews yet. Be the first to share your experience!</p>
+                      </div>
+                    )}
+                    
+                    {/* Review Submission Form */}
+                    <div className="border-t border-dark-700 pt-8">
+                      <h4 className="text-lg font-semibold mb-4">Share Your Experience</h4>
+                      <ReviewSubmissionForm 
+                        itemType="activity"
+                        itemId={activityData.id.toString()}
+                        itemName={activityData.title}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+                
                 {/* FAQs Tab */}
                 <TabsContent value="faqs" className="space-y-6">
                   <div className="bento-card">
@@ -403,11 +536,11 @@ export default function ActivityDetail({ params }: { params: { id: string } }) {
                 </div>
                 <div className="flex justify-between mb-2">
                   <span className="text-white/70">Taxes & Fees</span>
-                  <span>${Math.round(activityData.discountPrice * guests * 0.1)}</span>
+                  <span>${Math.round(activityData.discountPrice * guests * ((activityData as any).taxRate || 0.05))}</span>
                 </div>
                 <div className="flex justify-between font-semibold text-lg mt-4">
                   <span>Total</span>
-                  <span>${Math.round(activityData.discountPrice * guests * 1.1)}</span>
+                  <span>${Math.round(activityData.discountPrice * guests * (1 + ((activityData as any).taxRate || 0.05)))}</span>
                 </div>
               </div>
 

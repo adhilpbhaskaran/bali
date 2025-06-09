@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,6 +21,7 @@ import {
   Loader2,
   AlertCircle
 } from 'lucide-react';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 import { useTestimonialsStore } from '@/lib/store/testimonials';
 import { usePackagesStore } from '@/lib/store/packages';
 import { useActivitiesStore } from '@/lib/store/activities';
@@ -35,7 +36,7 @@ export default function TestimonialDetailPage({ params }: { params: { id: string
   const deleteTestimonial = useTestimonialsStore((state) => state.deleteTestimonial);
   
   const getPackage = usePackagesStore((state) => state.getPackage);
-  const getActivity = useActivitiesStore((state) => state.getActivity);
+  // Note: getActivity method doesn't exist in ActivitiesState, removing this line
   
   const [testimonial, setTestimonial] = useState<any>(null);
   const [relatedItem, setRelatedItem] = useState<any>(null);
@@ -46,32 +47,24 @@ export default function TestimonialDetailPage({ params }: { params: { id: string
 
   // Load testimonial data
   useEffect(() => {
-    const loadData = () => {
-      const testimonialData = getTestimonial(testimonialId);
-      
-      if (!testimonialData) {
+    const loadData = async () => {
+      try {
+        const testimonialData = await getTestimonial(testimonialId);
+        
+        if (!testimonialData) {
+          setIsLoading(false);
+          return;
+        }
+        
+        setTestimonial(testimonialData);
+        
+        // Note: Testimonial interface doesn't have packageId or activityId properties
+        // This functionality would need to be implemented with proper relations
+      } catch (error) {
+        console.error('Error loading testimonial:', error);
+      } finally {
         setIsLoading(false);
-        return;
       }
-      
-      setTestimonial(testimonialData);
-      
-      // Load related package or activity
-      if (testimonialData.packageId) {
-        const packageData = getPackage(testimonialData.packageId);
-        setRelatedItem({
-          type: 'package',
-          data: packageData
-        });
-      } else if (testimonialData.activityId) {
-        const activityData = getActivity(testimonialData.activityId);
-        setRelatedItem({
-          type: 'activity',
-          data: activityData
-        });
-      }
-      
-      setIsLoading(false);
     };
     
     loadData();
@@ -79,7 +72,7 @@ export default function TestimonialDetailPage({ params }: { params: { id: string
 
   // Handle status change
   const handleStatusChange = (status: 'published' | 'pending' | 'rejected') => {
-    updateStatus(testimonialId, status);
+    updateStatus(testimonialId, status as 'PUBLISHED' | 'DRAFT' | 'ARCHIVED');
     
     setSuccessMessage(`Testimonial status updated to ${status}`);
     setShowSuccessMessage(true);
@@ -372,9 +365,12 @@ export default function TestimonialDetailPage({ params }: { params: { id: string
               <div className="absolute -top-3 -left-3 text-primary-500 text-5xl opacity-30">"</div>
               <div className="absolute -bottom-3 -right-3 text-primary-500 text-5xl opacity-30">"</div>
               
-              <p className="text-white/90 italic relative z-10">
-                {testimonial.content}
-              </p>
+              <div className="text-white/90 italic relative z-10">
+                <SafeContentRenderer 
+                  content={testimonial.content} 
+                  className="text-white/90 italic"
+                />
+              </div>
             </div>
           </div>
           

@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { ArrowLeft, Calendar, Users, Clock, MapPin, Phone, Mail, Filter } from 'lucide-react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { ArrowLeft, Calendar, Users, Clock, MapPin, Phone, Mail, Filter } from 'lucide-react';
 
 export default function BookingsPage() {
   const [statusFilter, setStatusFilter] = useState('all');
@@ -135,52 +135,119 @@ export default function BookingsPage() {
 
       {/* Bookings Table */}
       <div className="bento-card p-6">
-        <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
+        <h2 id="bookings-table-title" className="text-xl font-semibold mb-4">Recent Bookings</h2>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table 
+            className="w-full" 
+            role="table" 
+            aria-labelledby="bookings-table-title"
+            aria-describedby="bookings-table-description"
+          >
+            <caption id="bookings-table-description" className="sr-only">
+              Table showing recent bookings with customer information, package details, dates, guests, amount, status, and available actions. Use arrow keys to navigate between cells.
+            </caption>
             <thead>
-              <tr className="border-b border-dark-600">
-                <th className="text-left py-3 px-4 font-medium text-white/60">Customer</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Package</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Dates</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Guests</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Amount</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Status</th>
-                <th className="text-left py-3 px-4 font-medium text-white/60">Actions</th>
+              <tr className="border-b border-dark-600" role="row">
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Customer
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Package
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Dates
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Guests
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Amount
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                  aria-sort="none"
+                >
+                  Status
+                </th>
+                <th 
+                  className="text-left py-3 px-4 font-medium text-white/60" 
+                  scope="col"
+                  role="columnheader"
+                >
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredBookings.map((booking) => (
-                <tr key={booking.id} className="border-b border-dark-700/50 hover:bg-dark-700/30">
-                  <td className="py-4 px-4">
+              {filteredBookings.map((booking, index) => (
+                <tr 
+                  key={booking.id} 
+                  className="border-b border-dark-700/50 hover:bg-dark-700/30"
+                  role="row"
+                  aria-rowindex={index + 2}
+                >
+                  <td className="py-4 px-4" role="gridcell">
                     <div>
                       <p className="font-medium">{booking.customer.name}</p>
                       <p className="text-sm text-white/60">{booking.customer.email}</p>
                     </div>
                   </td>
-                  <td className="py-4 px-4">
+                  <td className="py-4 px-4" role="gridcell">
                     <p className="font-medium">{booking.package}</p>
                   </td>
-                  <td className="py-4 px-4">
+                  <td className="py-4 px-4" role="gridcell">
                     <p className="text-sm">{booking.startDate} to {booking.endDate}</p>
                   </td>
-                  <td className="py-4 px-4">
+                  <td className="py-4 px-4" role="gridcell">
                     <p>{booking.guests} guests</p>
                   </td>
-                  <td className="py-4 px-4">
+                  <td className="py-4 px-4" role="gridcell">
                     <p className="font-medium">${booking.amount}</p>
                   </td>
-                  <td className="py-4 px-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      booking.status === 'confirmed' ? 'bg-green-500/20 text-green-400' :
-                      booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
-                      'bg-red-500/20 text-red-400'
-                    }`}>
+                  <td className="py-4 px-4" role="gridcell">
+                    <span 
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        booking.status === 'confirmed' ? 'bg-green-500/20 text-green-400' :
+                        booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                        'bg-red-500/20 text-red-400'
+                      }`}
+                      aria-label={`Status: ${booking.status}`}
+                    >
                       {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                     </span>
                   </td>
-                  <td className="py-4 px-4">
-                    <button className="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                  <td className="py-4 px-4" role="gridcell">
+                    <button 
+                      className="text-blue-400 hover:text-blue-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-2 py-1"
+                      aria-label={`View details for ${booking.customer.name}'s booking`}
+                    >
                       View Details
                     </button>
                   </td>

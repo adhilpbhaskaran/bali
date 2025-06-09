@@ -1,0 +1,52 @@
+{
+  "id": "family-fun-in-bali",
+  "name": "Family Fun in Bali",
+  "slug": "family-fun-in-bali",
+  "description": "Create lasting memories with your family in Bali. This package is specially designed for families with children, featuring kid-friendly accommodations, safe activities, and experiences that both parents and children will enjoy. From water parks to cultural shows, every day is filled with fun and learning opportunities.",
+  "shortDescription": "Perfect family vacation with kid-friendly activities",
+  "price": 849,
+  "duration": 6,
+  "location": "Sanur, Ubud, Nusa Dua",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/family.jpg",
+    "/images/beach.jpg",
+    "/images/beachclub.jpg"
+  ],
+  "highlights": [
+    "Family-friendly resort with kids club",
+    "Water park and beach activities",
+    "Cultural workshops for children",
+    "Safe and supervised excursions",
+    "Family cooking class"
+  ],
+  "included": [
+    "6 nights family accommodation",
+    "Daily breakfast",
+    "Kids club activities",
+    "Family-friendly tours",
+    "Airport transfers",
+    "Professional family guide"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Optional activities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Family Arrival",
+      "description": "Welcome to your family adventure in Bali",
+      "activities": ["Airport transfer", "Resort check-in", "Kids club orientation"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

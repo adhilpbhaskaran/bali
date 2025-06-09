@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 
@@ -86,7 +86,7 @@ export default function HeroSearch() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, this would navigate to search results
-    console.log({ searchQuery });
+    console.log('Search query:', searchQuery);
   };
 
   return (
@@ -113,13 +113,26 @@ export default function HeroSearch() {
 
         {/* Suggestions Dropdown */}
         {showSuggestions && filteredSuggestions.length > 0 && (
-          <div className="absolute z-50 mt-1 w-full bg-dark-800/70 backdrop-blur-md border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
-            <ul className="py-1">
-              {filteredSuggestions.map((suggestion) => (
+          <div 
+            className="absolute z-50 mt-1 w-full bg-dark-800/70 backdrop-blur-md border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto"
+            role="listbox"
+            aria-label="Search suggestions"
+          >
+            <ul className="py-1" role="none">
+              {filteredSuggestions.map((suggestion, index) => (
                 <li 
                   key={suggestion.id} 
-                  className="px-4 py-2 hover:bg-dark-700 cursor-pointer transition-colors duration-150 flex justify-between items-center"
+                  className="px-4 py-2 hover:bg-dark-700 cursor-pointer transition-colors duration-150 flex justify-between items-center focus:bg-dark-700 focus:outline-none"
                   onClick={() => handleSuggestionClick(suggestion.text)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleSuggestionClick(suggestion.text);
+                    }
+                  }}
+                  role="option"
+                  tabIndex={0}
+                  aria-selected={false}
                 >
                   <span className="text-white text-sm sm:text-base">{suggestion.text}</span>
                   <span className="text-white/50 text-xs">{suggestion.category}</span>

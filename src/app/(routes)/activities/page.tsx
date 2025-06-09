@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Search, Filter, ChevronDown, ShoppingBag } from 'lucide-react';
 import ActivityCard from '@/components/activities/ActivityCard';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ const allActivities = [
     image: "/images/activities/mount-batur.jpg",
     duration: "6 hours",
     category: "adventure",
+    taxRate: 0.05,
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ const allActivities = [
     image: "/images/activities/ubud-tour.jpg",
     duration: "8 hours",
     category: "cultural",
+    taxRate: 0.05,
   },
   {
     id: 3,
@@ -39,6 +41,7 @@ const allActivities = [
     image: "/images/activities/bali-swing.jpg",
     duration: "3 hours",
     category: "adventure",
+    taxRate: 0.05,
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ const allActivities = [
     image: "/images/activities/spa.jpg",
     duration: "2 hours",
     category: "wellness",
+    taxRate: 0.05,
   },
   {
     id: 5,
@@ -61,6 +65,7 @@ const allActivities = [
     image: "/images/activities/uluwatu.jpg",
     duration: "4 hours",
     category: "cultural",
+    taxRate: 0.05,
   },
   {
     id: 6,
@@ -72,6 +77,7 @@ const allActivities = [
     image: "/images/activities/nusa-penida.jpg",
     duration: "10 hours",
     category: "adventure",
+    taxRate: 0.05,
   },
   {
     id: 7,
@@ -83,6 +89,7 @@ const allActivities = [
     image: "/images/activities/cooking-class.jpg",
     duration: "4 hours",
     category: "cultural",
+    taxRate: 0.05,
   },
   {
     id: 8,
@@ -94,6 +101,7 @@ const allActivities = [
     image: "/images/activities/waterbom.jpg",
     duration: "Full day",
     category: "family",
+    taxRate: 0.05,
   },
   {
     id: 9,
@@ -105,6 +113,7 @@ const allActivities = [
     image: "/images/activities/atv.jpg",
     duration: "2 hours",
     category: "adventure",
+    taxRate: 0.05,
   },
   {
     id: 10,
@@ -116,6 +125,7 @@ const allActivities = [
     image: "/images/activities/dolphins.jpg",
     duration: "3 hours",
     category: "nature",
+    taxRate: 0.05,
   },
   {
     id: 11,
@@ -127,6 +137,7 @@ const allActivities = [
     image: "/images/activities/instagram-tour.jpg",
     duration: "8 hours",
     category: "photography",
+    taxRate: 0.05,
   },
   {
     id: 12,
@@ -138,6 +149,7 @@ const allActivities = [
     image: "/images/activities/tanah-lot.jpg",
     duration: "4 hours",
     category: "cultural",
+    taxRate: 0.05,
   },
 ];
 

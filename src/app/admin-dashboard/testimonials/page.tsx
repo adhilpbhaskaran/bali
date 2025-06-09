@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -17,6 +17,7 @@ import {
   XCircle,
   Clock
 } from 'lucide-react';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 import { useTestimonialsStore } from '@/lib/store/testimonials';
 
 export default function TestimonialsPage() {
@@ -57,7 +58,7 @@ export default function TestimonialsPage() {
 
   // Handle status change
   const handleStatusChange = (id: string, status: 'published' | 'pending' | 'rejected') => {
-    updateStatus(id, status);
+    updateStatus(id, status as 'PUBLISHED' | 'DRAFT' | 'ARCHIVED');
     
     setSuccessMessage(`Testimonial status updated to ${status}`);
     setShowSuccessMessage(true);
@@ -208,7 +209,12 @@ export default function TestimonialsPage() {
               ))}
             </div>
             
-            <p className="text-sm text-white/80 line-clamp-3">{testimonial.content}</p>
+            <div className="text-sm text-white/80 line-clamp-3">
+              <SafeContentRenderer 
+                content={testimonial.content} 
+                className="text-sm text-white/80"
+              />
+            </div>
             
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center">
@@ -248,7 +254,7 @@ export default function TestimonialsPage() {
             
             <div className="flex justify-between items-center pt-2 border-t border-dark-700 text-xs text-white/40">
               <span>
-                {testimonial.packageId ? 'Package Review' : testimonial.activityId ? 'Activity Review' : 'General Review'}
+                General Review
               </span>
               <span>
                 {new Date(testimonial.createdAt).toLocaleDateString()}
@@ -319,20 +325,40 @@ export default function TestimonialsPage() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-modal-title"
+          aria-describedby="delete-modal-description"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowDeleteModal(false);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setShowDeleteModal(false);
+            }
+          }}
+        >
           <div className="bg-dark-800 p-6 rounded-lg max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">Delete Testimonial</h3>
-            <p className="text-white/60 mb-6">Are you sure you want to delete this testimonial? This action cannot be undone.</p>
+            <h3 id="delete-modal-title" className="text-lg font-semibold mb-4">Delete Testimonial</h3>
+            <p id="delete-modal-description" className="text-white/60 mb-6">Are you sure you want to delete this testimonial? This action cannot be undone.</p>
             <div className="flex justify-end gap-4">
               <button
+                type="button"
                 onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 text-sm font-medium text-white/60 hover:text-white"
+                className="px-4 py-2 text-sm font-medium text-white/60 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-dark-800 rounded"
+                aria-label="Cancel deletion"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-dark-800"
+                aria-label="Confirm deletion of testimonial"
               >
                 Delete
               </button>

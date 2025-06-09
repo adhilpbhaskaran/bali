@@ -1,0 +1,50 @@
+{
+  "id": "cultural-heritage-tour-group",
+  "name": "Cultural Heritage Tour - Group Experience",
+  "slug": "cultural-heritage-tour-group",
+  "description": "Experience Bali's rich cultural heritage with a group of like-minded travelers. Fixed departure dates allow for deeper cultural experiences and meaningful connections with both locals and fellow travelers.",
+  "shortDescription": "5 days of cultural immersion with fellow culture enthusiasts",
+  "price": 599,
+  "duration": 5,
+  "location": "Ubud, Klungkung, Karangasem",
+  "category": "Upcoming Group Trips",
+  "tourType": "GIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/cultural.jpg",
+    "/images/ulundanu.jpg",
+    "/images/riceterrace.jpg"
+  ],
+  "highlights": [
+    "Group temple ceremonies",
+    "Traditional craft workshops",
+    "Community homestay experience",
+    "Group cultural performances",
+    "Shared learning experiences"
+  ],
+  "included": [
+    "5 nights accommodation",
+    "Daily breakfast",
+    "Cultural activities",
+    "Local guide",
+    "Transportation"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Cultural Group Introduction",
+      "description": "Meet fellow culture enthusiasts and begin the journey",
+      "activities": ["Group welcome ceremony", "Cultural orientation", "Traditional dinner"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

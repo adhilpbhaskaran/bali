@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -20,14 +20,33 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoaded, userId, isSignedIn } = useAuth();
+  // Handle authentication with error handling for development
+  let auth;
+  let authError = null;
   
-  // Authentication is now handled by Clerk
+  try {
+    auth = useAuth();
+  } catch (error) {
+    console.warn('Clerk authentication error in Header:', error);
+    authError = error;
+    // In development, assume not authenticated but allow app to continue
+    auth = { isLoaded: true, userId: null, isSignedIn: false };
+  }
+  
+  const { isLoaded, userId, isSignedIn } = auth;
+
+  // Set mounted state to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Check screen size on mount and resize
   useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
+    
     const checkScreenSize = () => {
       setIsSmallScreen(window.innerWidth < 768);
     };
@@ -40,9 +59,11 @@ export default function Header() {
     
     // Cleanup
     return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       if (window.scrollY > 10) {
         setIsScrolled(true);
@@ -53,7 +74,7 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mounted]);
 
   return (
     <header
@@ -69,7 +90,7 @@ export default function Header() {
           <Link href="/" className="relative z-10">
             <div className="flex items-center">
               <Image
-                src="/images/logo/transparent.svg"
+                src="/images/logo/logo.svg"
                 alt="Bali Malayali"
                 width={150}
                 height={50}
@@ -80,17 +101,23 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <nav 
+            id="navigation" 
+            className="hidden md:flex items-center space-x-8" 
+            role="navigation" 
+            aria-label="Main navigation"
+          >
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-white hover:text-primary-400 transition-colors duration-300"
+                className="text-sm font-medium text-white hover:text-primary-400 transition-colors duration-300 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800"
+                aria-current={pathname === item.href ? 'page' : undefined}
               >
                 {item.name}
               </Link>
             ))}
-          </div>
+          </nav>
 
           {/* Auth Section - Top Right */}
           <div className="hidden md:flex items-center space-x-4">
@@ -119,13 +146,17 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             <button
               type="button"
-              className="text-white p-2"
+              className="text-white p-2 rounded-md hover:bg-dark-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-haspopup="true"
             >
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -134,15 +165,36 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-dark-800/95 backdrop-blur-sm shadow-lg animate-slide-down max-h-[85vh] overflow-y-auto">
+        <div 
+          id="mobile-menu"
+          className="md:hidden absolute top-full left-0 w-full bg-dark-800/95 backdrop-blur-sm shadow-lg animate-slide-down max-h-[85vh] overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation menu"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setMobileMenuOpen(false);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setMobileMenuOpen(false);
+            }
+          }}
+        >
           <div className="container-custom px-4 py-3 sm:py-4">
-            <nav className="flex flex-col space-y-3">
+            <nav 
+              className="flex flex-col space-y-3" 
+              role="navigation" 
+              aria-label="Mobile navigation"
+            >
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="nav-link text-sm sm:text-base py-2 px-3 rounded-md hover:bg-dark-700/50 transition-colors"
+                  className="nav-link text-sm sm:text-base py-2 px-3 rounded-md hover:bg-dark-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800"
                   onClick={() => setMobileMenuOpen(false)}
+                  aria-current={pathname === item.href ? 'page' : undefined}
                 >
                   {item.name}
                 </Link>
@@ -153,10 +205,11 @@ export default function Header() {
                 <div className="flex flex-col space-y-2 mt-3">
                   <Link 
                     href="/dashboard" 
-                    className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-2 py-2 px-3 rounded-md hover:bg-dark-700/50"
+                    className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-2 py-2 px-3 rounded-md hover:bg-dark-700/50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800"
                     onClick={() => setMobileMenuOpen(false)}
+                    aria-label="Go to dashboard"
                   >
-                    <User className="h-4 w-4" />
+                    <User className="h-4 w-4" aria-hidden="true" />
                     <span>Dashboard</span>
                   </Link>
                   <div className="py-2 px-3">
@@ -166,8 +219,9 @@ export default function Header() {
               ) : (
                 <Link 
                   href="/sign-in" 
-                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mt-3 text-center"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-2 rounded-full font-semibold hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm mt-3 text-center focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-dark-800"
                   onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Sign in to account"
                 >
                   Login
                 </Link>

@@ -1,6 +1,7 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import { Save, Globe, Bell, Shield, Mail, Palette, Server } from 'lucide-react';
 
 interface SettingsSection {
@@ -324,4 +325,4 @@ export default function SettingsPage() {
       </div>
     </div>
   );
-} 
+}

@@ -1,0 +1,52 @@
+{
+  "id": "budget-backpacker-special",
+  "name": "Budget Backpacker Special",
+  "slug": "budget-backpacker-special",
+  "description": "Experience the best of Bali without breaking the bank. This budget-friendly package includes hostel accommodations, group tours, local transportation, and authentic experiences that give you great value for money. Perfect for solo travelers, students, and anyone looking to explore Bali on a budget.",
+  "shortDescription": "Affordable Bali adventure for budget travelers",
+  "price": 299,
+  "duration": 4,
+  "location": "Kuta, Ubud, Canggu",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/budget.jpg",
+    "/images/beach.jpg",
+    "/images/riceterrace.jpg"
+  ],
+  "highlights": [
+    "Budget-friendly hostel accommodation",
+    "Group tours with fellow travelers",
+    "Local food experiences",
+    "Beach and temple visits",
+    "Backpacker community activities"
+  ],
+  "included": [
+    "4 nights hostel accommodation",
+    "Daily breakfast",
+    "Group tours",
+    "Local transportation",
+    "English-speaking guide",
+    "Airport pickup"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Optional activities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Budget Adventure Begins",
+      "description": "Start your budget-friendly Bali experience",
+      "activities": ["Hostel check-in", "Group orientation", "Beach visit"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

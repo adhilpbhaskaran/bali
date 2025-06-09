@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormWrapper from '@/components/FormWrapper';
 import { ArrowLeft, Upload, X, Check, Info } from 'lucide-react';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { usePackagesStore } from '@/lib/store/packages';
 import MediaGallery from '@/components/MediaGallery';
 import type { MediaItem } from '@/lib/store/packages';
+import { generateSlug } from '@/lib/utils/slug';
 
 export default function NewPackagePage() {
   // Use client-side only rendering to prevent hydration errors
@@ -34,6 +35,7 @@ export default function NewPackagePage() {
     description: '',
     shortDescription: '',
     price: '',
+    taxRate: '5', // Default 5% tax rate
     duration: '',
     minParticipants: '',
     maxParticipants: '', // New field for GIT
@@ -155,9 +157,17 @@ export default function NewPackagePage() {
     setShowSuccessMessage(false);
     setErrorMessage('');
     
+    // Auto-assign category based on tourType
+    const autoCategory = formData.tourType === 'FIT' ? 'Bestseller' : 'Upcoming Group Trips';
+    
+    // Generate slug from package name
+    const autoSlug = generateSlug(formData.name);
+    
     // Convert string values to appropriate types
     const newPackage = {
       ...formData,
+      category: autoCategory,
+      slug: autoSlug,
       price: formData.price ? Number(formData.price) : undefined,
       duration: formData.duration ? Number(formData.duration) : undefined,
       minParticipants: formData.minParticipants ? Number(formData.minParticipants) : undefined,
@@ -170,7 +180,7 @@ export default function NewPackagePage() {
     };
     
     // Add the package and check result
-    const success = addPackage(newPackage);
+    const success = await addPackage(newPackage);
     
     if (success) {
       // Show success message
@@ -717,6 +727,30 @@ export default function NewPackagePage() {
                       placeholder="0.00"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label htmlFor="taxRate" className="block text-sm font-medium text-white/80 mb-1">
+                    Tax Rate (%)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      id="taxRate"
+                      name="taxRate"
+                      value={formData.taxRate}
+                      onChange={handleChange}
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      className="block w-full px-4 py-3 border border-dark-700 rounded-lg bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      placeholder="5.0"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <span className="text-white/40">%</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/60 mt-1">Default is 5%. This will be applied to all bookings for this package.</p>
                 </div>
 
                 <div>

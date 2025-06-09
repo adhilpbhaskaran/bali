@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { Users as UsersIcon, Plus, Search, Edit, Trash2, MoreVertical } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Users as UsersIcon, Plus, Search, Edit, Trash2, MoreVertical } from 'lucide-react';
 
 interface User {
   id: string;
@@ -207,4 +207,4 @@ export default function UsersPage() {
       </div>
     </div>
   );
-} 
+}

@@ -1,0 +1,50 @@
+{
+  "id": "romantic-bali-honeymoon-group",
+  "name": "Romantic Bali Honeymoon - Group Tour",
+  "slug": "romantic-bali-honeymoon-group",
+  "description": "Join other couples for a romantic group tour of Bali. This fixed-date departure includes all the romance of our honeymoon package with the added benefit of meeting like-minded couples. Perfect for those who enjoy socializing while experiencing Bali's most romantic locations.",
+  "shortDescription": "7 days of romance with other couples - Fixed departure dates",
+  "price": 799,
+  "duration": 7,
+  "location": "Ubud, Seminyak, Nusa Dua",
+  "category": "Upcoming Group Trips",
+  "tourType": "GIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/packages/honeymoon-1.jpg",
+    "/images/packages/honeymoon-2.jpg",
+    "/images/packages/honeymoon-3.jpg"
+  ],
+  "highlights": [
+    "Fixed Valentine's departure",
+    "Meet other couples",
+    "Group romantic activities",
+    "Shared experiences",
+    "Professional group guide"
+  ],
+  "included": [
+    "7 nights luxury accommodation",
+    "Daily breakfast",
+    "Airport transfers",
+    "Group activities",
+    "Professional guide"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Personal expenses",
+    "Individual spa treatments"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Group Arrival & Welcome",
+      "description": "Meet your fellow travelers and begin the journey",
+      "activities": ["Airport pickup", "Group check-in", "Welcome dinner"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}

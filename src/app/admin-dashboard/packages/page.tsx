@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Package, 
@@ -12,19 +12,57 @@ import {
   Eye, 
   ArrowUpDown,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Users,
+  User
 } from 'lucide-react';
 import { usePackagesStore } from '@/lib/store/packages';
 import type { Package as PackageType } from '@/lib/store/packages';
 
 export default function PackagesPage() {
-  const packages = usePackagesStore((state) => state.packages);
-  const deletePackage = usePackagesStore((state) => state.deletePackage);
+  const { 
+    packages, 
+    loading, 
+    error, 
+    deletePackage, 
+    fetchPackages, 
+    fetchFITPackages, 
+    fetchGITPackages 
+  } = usePackagesStore();
   const [searchTerm, setSearchTerm] = useState('');
+  const [tourTypeFilter, setTourTypeFilter] = useState<'ALL' | 'FIT' | 'GIT'>('ALL');
   const [sortField, setSortField] = useState<keyof PackageType>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+
+  // Fetch packages based on tour type filter with debounced search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const fetchData = async () => {
+        const params = {
+          page: currentPage,
+          limit: itemsPerPage,
+          search: searchTerm || undefined
+        };
+
+        switch (tourTypeFilter) {
+          case 'FIT':
+            await fetchFITPackages(params);
+            break;
+          case 'GIT':
+            await fetchGITPackages(params);
+            break;
+          default:
+            await fetchPackages({ ...params, tourType: undefined });
+        }
+      };
+
+      fetchData();
+    }, searchTerm ? 500 : 0); // Debounce search by 500ms
+
+    return () => clearTimeout(timeoutId);
+  }, [tourTypeFilter, currentPage, searchTerm, fetchPackages, fetchFITPackages, fetchGITPackages]);
 
   const handleDelete = (id: string) => {
     if (window.confirm('Are you sure you want to delete this package?')) {
@@ -32,9 +70,8 @@ export default function PackagesPage() {
     }
   };
 
-  const filteredPackages = packages.filter(pkg =>
-    pkg.name?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false
-  );
+  // Since we're fetching filtered data from API, we just need to sort locally
+  const filteredPackages = packages;
 
   // Sort packages
   const sortedPackages = [...filteredPackages].sort((a, b) => {
@@ -84,7 +121,7 @@ export default function PackagesPage() {
         </Link>
       </div>
 
-      {/* Search */}
+      {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -98,14 +135,92 @@ export default function PackagesPage() {
             className="block w-full pl-10 pr-3 py-2 border border-dark-700 rounded-lg bg-dark-800 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
+        
+        {/* Tour Type Filter */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setTourTypeFilter('ALL')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              tourTypeFilter === 'ALL'
+                ? 'bg-primary-500 text-white'
+                : 'bg-dark-700 text-white/60 hover:bg-dark-600'
+            }`}
+          >
+            All Tours
+          </button>
+          <button
+            onClick={() => setTourTypeFilter('FIT')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+              tourTypeFilter === 'FIT'
+                ? 'bg-primary-500 text-white'
+                : 'bg-dark-700 text-white/60 hover:bg-dark-600'
+            }`}
+          >
+            <User size={16} />
+            FIT Tours
+          </button>
+          <button
+            onClick={() => setTourTypeFilter('GIT')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+              tourTypeFilter === 'GIT'
+                ? 'bg-primary-500 text-white'
+                : 'bg-dark-700 text-white/60 hover:bg-dark-600'
+            }`}
+          >
+            <Users size={16} />
+            GIT Tours
+          </button>
+        </div>
       </div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+          <span className="ml-3 text-white/60">Loading packages...</span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-red-400">
+          <p>Error: {error}</p>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!loading && !error && filteredPackages.length === 0 && (
+        <div className="text-center py-12">
+          <Package className="mx-auto h-12 w-12 text-white/40 mb-4" />
+          <h3 className="text-lg font-medium text-white/60 mb-2">
+            No {tourTypeFilter === 'ALL' ? '' : tourTypeFilter} packages found
+          </h3>
+          <p className="text-white/40">
+            {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first package.'}
+          </p>
+        </div>
+      )}
+
       {/* Packages Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedPackages.map((pkg) => (
-          <div key={pkg.id} className="bento-card p-6 space-y-4">
+      {!loading && !error && filteredPackages.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginatedPackages.map((pkg) => (
+            <div key={pkg.id} className="bento-card p-6 space-y-4">
             <div>
-              <h3 className="text-lg font-semibold">{pkg.name}</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-semibold">{pkg.name}</h3>
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                  pkg.tourType === 'FIT' 
+                    ? 'bg-blue-500/20 text-blue-400' 
+                    : 'bg-green-500/20 text-green-400'
+                }`}>
+                  {pkg.tourType === 'FIT' ? (
+                    <><User size={12} className="mr-1" /> FIT</>
+                  ) : (
+                    <><Users size={12} className="mr-1" /> GIT</>
+                  )}
+                </span>
+              </div>
               <p className="text-white/60 text-sm mt-1 line-clamp-2">{pkg.description}</p>
             </div>
             
@@ -115,8 +230,8 @@ export default function PackagesPage() {
                 <span className="text-white/60 text-sm ml-2">/ {pkg.duration} days</span>
               </div>
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                pkg.status === 'available' ? 'bg-green-500/20 text-green-500' :
-                pkg.status === 'almost_full' ? 'bg-yellow-500/20 text-yellow-500' :
+                pkg.status === 'PUBLISHED' ? 'bg-green-500/20 text-green-500' :
+                pkg.status === 'DRAFT' ? 'bg-yellow-500/20 text-yellow-500' :
                 'bg-red-500/20 text-red-500'
               }`}>
                 {pkg.status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
@@ -125,8 +240,8 @@ export default function PackagesPage() {
 
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center px-2 py-1 rounded-md bg-dark-700 text-sm">
-                <span className="mr-1">👥</span>
-                {pkg.maxParticipants} max
+                <span className="mr-1">⏱️</span>
+                {pkg.duration} days
               </span>
               <span className="inline-flex items-center px-2 py-1 rounded-md bg-dark-700 text-sm">
                 <span className="mr-1">📍</span>
@@ -157,8 +272,9 @@ export default function PackagesPage() {
               </button>
             </div>
           </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (

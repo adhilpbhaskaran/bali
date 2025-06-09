@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Tag
 } from 'lucide-react';
+import SafeContentRenderer from '@/components/SafeContentRenderer';
 
 // Sample blog post data
 const blogPostsData = [
@@ -242,10 +243,9 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
 
             {/* Blog Content */}
             <div className="bento-card mb-8">
-              <div 
-                className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-white/80 prose-a:text-primary-500"
-                dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
-              />
+              <div className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-white/80 prose-a:text-primary-500">
+                <SafeContentRenderer content={post.content || post.excerpt} />
+              </div>
             </div>
 
             {/* Tags */}

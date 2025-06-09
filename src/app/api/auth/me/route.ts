@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-here';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required');
+}
 
 // Mock user database - In production, this would be a real database
 const users = [
@@ -24,7 +28,7 @@ const users = [
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('auth-token')?.value;
 
     if (!token) {
@@ -35,7 +39,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify JWT token
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET!) as any;
     
     // Find user in database
     const user = users.find(u => u.id === decoded.userId);

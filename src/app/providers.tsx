@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
+import { StoreHydration } from '@/lib/store/hydration';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -10,7 +11,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      {children}
+      <StoreHydration>{children}</StoreHydration>
     </ThemeProvider>
   );
 }

@@ -1,0 +1,52 @@
+{
+  "id": "bali-adventure-package",
+  "name": "Bali Adventure Package",
+  "slug": "bali-adventure-package",
+  "description": "Get your adrenaline pumping with this action-packed adventure tour of Bali. From white water rafting and volcano hiking to ATV rides and cliff jumping, this package is designed for thrill-seekers who want to experience Bali's wild side while enjoying comfortable accommodations and expert guidance.",
+  "shortDescription": "Thrilling adventures across Bali's most exciting spots",
+  "price": 749,
+  "duration": 5,
+  "location": "Ubud, Kintamani, Amed",
+  "category": "Bestseller",
+  "tourType": "FIT",
+  "status": "available",
+  "published": true,
+  "mediaGallery": [
+    "/images/waterfall.jpg",
+    "/images/dirtbike.jpg",
+    "/images/surfing.jpg"
+  ],
+  "highlights": [
+    "Mount Batur sunrise trekking",
+    "White water rafting on Ayung River",
+    "ATV quad biking adventure",
+    "Sekumpul waterfall exploration",
+    "Traditional Balinese cooking class"
+  ],
+  "included": [
+    "5 nights accommodation",
+    "Daily breakfast",
+    "All adventure activities",
+    "Professional guide",
+    "Safety equipment",
+    "Transportation"
+  ],
+  "notIncluded": [
+    "International flights",
+    "Travel insurance",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Optional activities"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival & Orientation",
+      "description": "Welcome to your Bali adventure",
+      "activities": ["Airport transfer", "Hotel check-in", "Adventure briefing"]
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-15T00:00:00Z",
+  "language": "en"
+}
